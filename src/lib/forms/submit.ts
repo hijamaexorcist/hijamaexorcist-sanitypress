@@ -2,6 +2,7 @@ import 'server-only'
 
 import { Resend } from 'resend'
 import { z } from 'zod'
+import { RESEND_TEMPLATES } from './resendTemplates'
 
 export type FormKind = 'appointment' | 'contact'
 
@@ -145,86 +146,115 @@ async function sendSubmissionEmails(
 ) {
 	const resend = new Resend(process.env.RESEND_API_KEY)
 	const from =
-		process.env.RESEND_FROM_EMAIL || 'Hijama Exorcist <onboarding@resend.dev>'
+		process.env.RESEND_FROM_EMAIL ||
+		'Hijama Exorcist <bookings@hijamaexorcist.com>'
 	const clinicEmail =
 		process.env.FORM_NOTIFICATION_EMAIL || 'thehijamaexorcist@gmail.com'
-	const replyToClinic = process.env.RESEND_REPLY_TO_EMAIL || clinicEmail
+	const replyToClinic =
+		process.env.RESEND_REPLY_TO_EMAIL || 'bookings@hijamaexorcist.com'
 	const appointment =
 		kind === 'appointment' ? (submission as AppointmentSubmission) : undefined
 	const contact =
 		kind === 'contact' ? (submission as ContactSubmission) : undefined
 
-	const clinicRows = appointment
-		? [
-				['Name', appointment.name],
-				['Email', appointment.email],
-				['Phone', appointment.phone],
-				['Preferred contact', appointment.preferredContact],
-				['Session', appointment.service],
-				['Preferred date', formatDate(appointment.date)],
-				['Preferred time', appointment.time],
-				['Practical notes', appointment.additionalNotes || 'None provided'],
-			]
-		: [
-				['Name', contact!.name],
-				['Email', contact!.email],
-				['Reason', contact!.reason],
-				['Message', contact!.message],
-			]
+	const clinic =
+		kind === 'appointment' && appointment
+			? await resend.emails.send(
+					{
+						from,
+						to: clinicEmail,
+						replyTo: appointment.email,
+						template: {
+							id: RESEND_TEMPLATES.appointmentClinic,
+							variables: {
+								REFERENCE: reference,
+								CUSTOMER_NAME: appointment.name,
+								USER_EMAIL: appointment.email,
+								CUSTOMER_PHONE: appointment.phone,
+								PREFERRED_CONTACT: appointment.preferredContact,
+								SESSION_NAME: appointment.service,
+								PREFERRED_DATE: formatDate(appointment.date),
+								PREFERRED_TIME: appointment.time,
+								PRACTICAL_NOTES:
+									appointment.additionalNotes || 'None provided',
+							},
+						},
+						tags: [
+							{ name: 'kind', value: 'appointment' },
+							{ name: 'audience', value: 'clinic' },
+						],
+					},
+					{ idempotencyKey: `appointment-clinic/${reference}` },
+				)
+			: await resend.emails.send(
+					{
+						from,
+						to: clinicEmail,
+						replyTo: contact!.email,
+						template: {
+							id: RESEND_TEMPLATES.enquiryClinic,
+							variables: {
+								REFERENCE: reference,
+								CUSTOMER_NAME: contact!.name,
+								USER_EMAIL: contact!.email,
+								ENQUIRY_REASON: contact!.reason,
+								MESSAGE_BODY: contact!.message,
+							},
+						},
+						tags: [
+							{ name: 'kind', value: 'enquiry' },
+							{ name: 'audience', value: 'clinic' },
+						],
+					},
+					{ idempotencyKey: `enquiry-clinic/${reference}` },
+				)
 
-	const clinicDelivery = await resend.emails.send({
-		from,
-		to: clinicEmail,
-		replyTo: submission.email,
-		subject:
-			kind === 'appointment'
-				? `[${reference}] New appointment request`
-				: `[${reference}] New clinic enquiry`,
-		html: emailShell(
-			kind === 'appointment'
-				? 'New appointment request'
-				: 'New private enquiry',
-			`Reply to this email to respond directly to ${escapeHtml(submission.name)}.`,
-			rowsHtml(clinicRows),
-			reference,
-		),
-		text:
-			clinicRows.map(([label, value]) => `${label}: ${value}`).join('\n') +
-			`\n\nReference: ${reference}`,
-	})
+	if (clinic.error) throw new Error(clinic.error.message)
 
-	if (clinicDelivery.error) throw new Error(clinicDelivery.error.message)
-
-	const customerDetails = appointment
-		? rowsHtml([
-				['Session', appointment.service],
-				['Preferred date', formatDate(appointment.date)],
-				['Preferred time', appointment.time],
-			])
-		: `<p style="margin:0;color:#52605a;line-height:1.7">Your ${escapeHtml(contact!.reason.toLowerCase())} enquiry is now with the clinic.</p>`
-
-	const confirmation = await resend.emails.send({
-		from,
-		to: submission.email,
-		replyTo: replyToClinic,
-		subject:
-			kind === 'appointment'
-				? `We received your appointment request · ${reference}`
-				: `We received your message · ${reference}`,
-		html: emailShell(
-			`As-salāmu ʿalaykum, ${escapeHtml(submission.name)}`,
-			kind === 'appointment'
-				? 'Your request has been received. It is not confirmed yet—the clinic will reply personally with availability and next steps.'
-				: 'Thank you for contacting Hijama Exorcist. The clinic will reply personally as soon as possible.',
-			customerDetails,
-			reference,
-		),
-		text:
-			(kind === 'appointment'
-				? 'Your appointment request has been received but is not confirmed yet. The clinic will reply with availability and next steps.'
-				: 'Your message has been received. The clinic will reply as soon as possible.') +
-			`\n\nReference: ${reference}`,
-	})
+	const confirmation =
+		kind === 'appointment' && appointment
+			? await resend.emails.send(
+					{
+						from,
+						to: appointment.email,
+						replyTo: replyToClinic,
+						template: {
+							id: RESEND_TEMPLATES.appointmentConfirmation,
+							variables: {
+								REFERENCE: reference,
+								CUSTOMER_NAME: appointment.name,
+								SESSION_NAME: appointment.service,
+								PREFERRED_DATE: formatDate(appointment.date),
+								PREFERRED_TIME: appointment.time,
+							},
+						},
+						tags: [
+							{ name: 'kind', value: 'appointment' },
+							{ name: 'audience', value: 'client' },
+						],
+					},
+					{ idempotencyKey: `appointment-confirmation/${reference}` },
+				)
+			: await resend.emails.send(
+					{
+						from,
+						to: contact!.email,
+						replyTo: replyToClinic,
+						template: {
+							id: RESEND_TEMPLATES.enquiryConfirmation,
+							variables: {
+								REFERENCE: reference,
+								CUSTOMER_NAME: contact!.name,
+								ENQUIRY_REASON: contact!.reason.toLowerCase(),
+							},
+						},
+						tags: [
+							{ name: 'kind', value: 'enquiry' },
+							{ name: 'audience', value: 'client' },
+						],
+					},
+					{ idempotencyKey: `enquiry-confirmation/${reference}` },
+				)
 
 	if (confirmation.error) {
 		console.error('Customer confirmation email failed.', confirmation.error)
@@ -232,37 +262,6 @@ async function sendSubmissionEmails(
 	}
 
 	return true
-}
-
-function emailShell(
-	title: string,
-	intro: string,
-	content: string,
-	reference: string,
-) {
-	return `<!doctype html><html><body style="margin:0;background:#f4f2eb;font-family:Arial,sans-serif;color:#173c32"><div style="display:none;max-height:0;overflow:hidden">Reference ${escapeHtml(reference)}</div><div style="max-width:620px;margin:0 auto;padding:32px 16px"><div style="background:#173c32;border-radius:18px 18px 0 0;padding:24px 28px;color:#f8f5ed"><p style="margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c9d6cf">Hijama Exorcist</p><h1 style="margin:0;font-family:Georgia,serif;font-size:28px;line-height:1.2">${title}</h1></div><div style="background:#fff;border:1px solid #d9ded8;border-top:0;border-radius:0 0 18px 18px;padding:28px"><p style="margin:0 0 24px;color:#52605a;line-height:1.7">${intro}</p>${content}<p style="margin:28px 0 0;padding-top:20px;border-top:1px solid #e3e7e2;color:#6b746f;font-size:13px">Reference: <strong>${escapeHtml(reference)}</strong><br>Reply to this email to continue the conversation.</p></div></div></body></html>`
-}
-
-function rowsHtml(rows: string[][]) {
-	return `<table role="presentation" style="width:100%;border-collapse:collapse">${rows
-		.map(
-			([label, value]) =>
-				`<tr><td style="padding:10px 12px 10px 0;border-top:1px solid #edf0ed;color:#6b746f;font-size:13px;vertical-align:top">${escapeHtml(label)}</td><td style="padding:10px 0;border-top:1px solid #edf0ed;color:#173c32;line-height:1.5">${escapeHtml(value)}</td></tr>`,
-		)
-		.join('')}</table>`
-}
-
-function escapeHtml(value: string) {
-	return value.replace(/[&<>'"]/g, (character) => {
-		const entities: Record<string, string> = {
-			'&': '&amp;',
-			'<': '&lt;',
-			'>': '&gt;',
-			"'": '&#39;',
-			'"': '&quot;',
-		}
-		return entities[character]
-	})
 }
 
 function createReference(kind: FormKind) {

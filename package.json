@@ -9,7 +9,8 @@
 		"build": "next build --webpack",
 		"start": "next start",
 		"lint": "eslint .",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"sync:resend-templates": "node --env-file=.env.local scripts/sync-resend-templates.mjs"
 	},
 	"dependencies": {
 		"@portabletext/to-html": "^5.0.0",
