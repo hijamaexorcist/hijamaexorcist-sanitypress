@@ -24,6 +24,8 @@ import ContactFormModule from './ContactFormModule'
 import AppointmentFormModule from './appointmentFormModule'
 import CareJourney from './CareJourney'
 import CareStandards from './CareStandards'
+import ClinicMap from './ClinicMap'
+import ClinicianProfile from './ClinicianProfile'
 import TraditionGuidance from './TraditionGuidance'
 import EducationBento from './EducationBento'
 import VideoLibrary from './VideoLibrary'
@@ -60,6 +62,8 @@ const MODULE_MAP = {
 	'appointment-form-module': AppointmentFormModule,
 	'care-journey': CareJourney,
 	'care-standards': CareStandards,
+	'clinic-map': ClinicMap,
+	'clinician-profile': ClinicianProfile,
 	'tradition-guidance': TraditionGuidance,
 	'education-bento': EducationBento,
 	'video-library': VideoLibrary,

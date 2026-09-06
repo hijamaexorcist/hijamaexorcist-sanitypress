@@ -84,7 +84,10 @@ export default function AppointmentFormModule({
 	const selectedDate = formData.date ? asLocalDate(formData.date) : undefined
 	const hijriDate = selectedDate ? getHijriDate(selectedDate) : undefined
 	const selectedDayIsSunnah = selectedDate ? isSunnahDay(selectedDate) : false
-	const formEndpoint = endpoint || '/api/forms/appointment'
+	const formEndpoint =
+		!endpoint || endpoint.startsWith('http')
+			? '/api/forms/appointment'
+			: endpoint
 
 	function handleChange(
 		event: React.ChangeEvent<

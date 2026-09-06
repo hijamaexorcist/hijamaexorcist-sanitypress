@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import moduleProps from '@/lib/moduleProps'
 import { getRecaptchaToken } from '@/lib/recaptcha'
+import CTAList from '@/ui/CTAList'
 import {
 	Mail,
 	Phone,
@@ -27,6 +28,7 @@ const socialIcons = {
 interface ContactFormModuleProps {
 	title?: string
 	description?: string
+	ctas?: Sanity.CTA[]
 	endpoint?: string
 	showRecaptcha?: boolean
 	reasonOptions?: string[]
@@ -56,6 +58,7 @@ interface ContactFormModuleProps {
 export default function ContactFormModule({
 	title = 'Contact the clinic',
 	description = 'Have a practical question before booking? Send a private enquiry and the clinic will respond as soon as possible.',
+	ctas,
 	endpoint,
 	showRecaptcha,
 	reasonOptions,
@@ -97,7 +100,10 @@ export default function ContactFormModule({
 	const [reference, setReference] = useState('')
 	const [confirmationSent, setConfirmationSent] = useState<boolean | null>(null)
 	const [errorMessage, setErrorMessage] = useState('')
-	const formEndpoint = endpoint || '/api/forms/contact'
+	const formEndpoint =
+		!endpoint || endpoint.startsWith('http')
+			? '/api/forms/contact'
+			: endpoint
 
 	const handleChange = (
 		e: React.ChangeEvent<
@@ -182,6 +188,7 @@ export default function ContactFormModule({
 							<p className="text-clinic-stone max-w-prose text-lg leading-relaxed">
 								{description}
 							</p>
+							<CTAList ctas={ctas} />
 						</header>
 
 						{contactInfo &&

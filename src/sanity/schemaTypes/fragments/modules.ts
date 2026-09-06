@@ -34,6 +34,8 @@ export default defineField({
 		{ type: 'appointment-form-module' },
 		{ type: 'care-journey' },
 		{ type: 'care-standards' },
+		{ type: 'clinic-map' },
+		{ type: 'clinician-profile' },
 		{ type: 'tradition-guidance' },
 		{ type: 'education-bento' },
 		{ type: 'video-library' },
@@ -79,6 +81,8 @@ export default defineField({
 					of: [
 						'care-journey',
 						'care-standards',
+						'clinic-map',
+						'clinician-profile',
 						'tradition-guidance',
 						'education-bento',
 						'video-library',

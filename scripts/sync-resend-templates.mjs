@@ -4,8 +4,8 @@
  * Usage: node --env-file=.env.local scripts/sync-resend-templates.mjs
  */
 
-const FROM = 'Hijama Exorcist <bookings@hijamaexorcist.com>'
-const REPLY_TO = 'bookings@hijamaexorcist.com'
+const FROM = 'Hijama Exorcist <hello@hijamaexorcist.com>'
+const REPLY_TO = 'hello@hijamaexorcist.com'
 
 function shell({ title, preheader, intro, body, footer }) {
 	return `<!doctype html>

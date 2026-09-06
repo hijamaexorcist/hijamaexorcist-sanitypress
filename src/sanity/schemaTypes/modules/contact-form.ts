@@ -19,6 +19,12 @@ export default defineType({
 				'Have a question or want to work together? Drop us a message!',
 		}),
 		defineField({
+			name: 'ctas',
+			title: 'Call-to-actions',
+			type: 'array',
+			of: [{ type: 'cta' }],
+		}),
+		defineField({
 			name: 'endpoint',
 			title: 'Submission endpoint',
 			type: 'string',

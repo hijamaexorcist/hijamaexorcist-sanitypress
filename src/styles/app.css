@@ -369,14 +369,30 @@ html[data-theme='light'] {
 
 .clinic-hero-atmosphere {
 	position: absolute;
-	inset: -20%;
+	inset: 0;
+	width: 100%;
+	min-width: 100%;
 	background:
 		radial-gradient(
-			circle at 72% 38%,
-			rgb(185 110 82 / 0.14),
-			transparent 22rem
+			ellipse 130% 55% at 50% 0%,
+			rgb(185 110 82 / 0.16),
+			transparent 62%
 		),
-		radial-gradient(circle at 20% 78%, rgb(53 89 67 / 0.12), transparent 28rem);
+		radial-gradient(
+			ellipse 100% 85% at 50% 48%,
+			rgb(255 255 255 / 0.22),
+			transparent 72%
+		),
+		radial-gradient(
+			ellipse 70% 90% at 8% 28%,
+			rgb(185 110 82 / 0.12),
+			transparent 70%
+		),
+		radial-gradient(
+			ellipse 70% 90% at 92% 58%,
+			rgb(53 89 67 / 0.1),
+			transparent 70%
+		);
 	animation: clinic-atmosphere 20s cubic-bezier(0.32, 0.72, 0, 1) infinite
 		alternate;
 	pointer-events: none;

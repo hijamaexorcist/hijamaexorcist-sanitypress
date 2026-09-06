@@ -56,6 +56,8 @@ import contactFormModule from './modules/contact-form'
 import appointmentForm from './modules/appointment-form'
 import careJourney from './modules/care-journey'
 import careStandards from './modules/care-standards'
+import clinicMap from './modules/clinic-map'
+import clinicianProfile from './modules/clinician-profile'
 import traditionGuidance from './modules/tradition-guidance'
 import educationBento from './modules/education-bento'
 import videoLibrary from './modules/video-library'
@@ -117,6 +119,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	appointmentForm,
 	careJourney,
 	careStandards,
+	clinicMap,
+	clinicianProfile,
 	traditionGuidance,
 	educationBento,
 	videoLibrary,

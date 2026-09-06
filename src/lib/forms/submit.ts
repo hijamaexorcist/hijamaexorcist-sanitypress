@@ -3,6 +3,7 @@ import 'server-only'
 import { Resend } from 'resend'
 import { z } from 'zod'
 import { RESEND_TEMPLATES } from './resendTemplates'
+import { CLINIC_FROM_FALLBACK, CLINIC_INBOX_FALLBACK, CLINIC_PUBLIC_EMAIL } from './clinicEmail'
 
 export type FormKind = 'appointment' | 'contact'
 
@@ -145,13 +146,11 @@ async function sendSubmissionEmails(
 	reference: string,
 ) {
 	const resend = new Resend(process.env.RESEND_API_KEY)
-	const from =
-		process.env.RESEND_FROM_EMAIL ||
-		'Hijama Exorcist <bookings@hijamaexorcist.com>'
+	const from = process.env.RESEND_FROM_EMAIL || CLINIC_FROM_FALLBACK
 	const clinicEmail =
-		process.env.FORM_NOTIFICATION_EMAIL || 'thehijamaexorcist@gmail.com'
+		process.env.FORM_NOTIFICATION_EMAIL || CLINIC_INBOX_FALLBACK
 	const replyToClinic =
-		process.env.RESEND_REPLY_TO_EMAIL || 'bookings@hijamaexorcist.com'
+		process.env.RESEND_REPLY_TO_EMAIL || CLINIC_PUBLIC_EMAIL
 	const appointment =
 		kind === 'appointment' ? (submission as AppointmentSubmission) : undefined
 	const contact =

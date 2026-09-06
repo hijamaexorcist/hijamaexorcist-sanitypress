@@ -34,28 +34,40 @@ export default function Hero({
 	return (
 		<section
 			className={cn(
-				'section relative isolate grid items-center gap-10 overflow-hidden',
-				hasImage
-					? 'min-h-[min(760px,calc(100dvh-var(--header-height)))] md:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.8fr)] md:gap-16'
-					: 'py-12 md:py-16',
+				'relative isolate',
+				hasImage &&
+					'min-h-[min(760px,calc(100dvh-var(--header-height)))]',
 			)}
 			{...moduleProps(props)}
 		>
-			<div aria-hidden="true" className="clinic-hero-atmosphere -z-10" />
-			{hasImage && (
-				<div className="clinic-shell order-first overflow-hidden md:order-last md:rotate-[1.5deg]">
-					<ResponsiveImg
-						img={asset}
-						className="clinic-core aspect-[4/5] size-full object-cover"
-						width={2400}
-						draggable={false}
-					/>
-				</div>
-			)}
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 -top-[var(--header-height,5.5rem)] bottom-0 overflow-hidden"
+			>
+				<div className="clinic-hero-atmosphere" />
+			</div>
+			<div
+				className={cn(
+					'section relative grid items-center gap-10',
+					hasImage
+						? 'md:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.8fr)] md:gap-16'
+						: 'py-12 md:py-16',
+				)}
+			>
+				{hasImage && (
+					<div className="clinic-shell order-first overflow-hidden md:order-last md:rotate-[1.5deg]">
+						<ResponsiveImg
+							img={asset}
+							className="clinic-core aspect-[4/5] size-full object-cover"
+							width={2400}
+							draggable={false}
+						/>
+					</div>
+				)}
 
-			{content && (
-				<div className="flex w-full flex-col text-balance">
-					<Reveal immediate className="w-full">
+				{content && (
+					<div className="flex w-full flex-col text-balance">
+						<Reveal immediate className="w-full">
 						<div
 							className={cn(
 								'richtext headings:text-balance relative isolate max-w-2xl',
@@ -106,9 +118,10 @@ export default function Hero({
 								})}
 							/>
 						</div>
-					</Reveal>
-				</div>
-			)}
+						</Reveal>
+					</div>
+				)}
+			</div>
 		</section>
 	)
 }

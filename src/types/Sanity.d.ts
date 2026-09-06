@@ -214,6 +214,34 @@ declare global {
 			}
 		}
 
+		interface ClinicianProfile {
+			pretitle?: string
+			name?: string
+			role?: string
+			title?: string
+			bio?: string
+			bioSecondary?: string
+			portrait?: Img
+			instagramUrl?: string
+			notes?: string[]
+			ctas?: CTA[]
+		}
+
+		interface ClinicMap {
+			pretitle?: string
+			title?: string
+			description?: string
+			ctas?: CTA[]
+			locationName?: string
+			address?: string
+			latitude: number
+			longitude: number
+			zoom?: number
+			directionsUrl?: string
+			directionsLabel?: string
+			note?: string
+		}
+
 		interface TraditionGuidance {
 			pretitle?: string
 			title?: string

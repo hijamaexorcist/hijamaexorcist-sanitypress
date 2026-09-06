@@ -1,23 +1,18 @@
 import 'server-only'
 
 import { Resend } from 'resend'
+import {
+	CLINIC_FROM_FALLBACK,
+	CLINIC_INBOX_FALLBACK,
+	isClinicAddress,
+} from '@/lib/forms/clinicEmail'
 
 const CLINIC_INBOX =
-	process.env.FORM_NOTIFICATION_EMAIL || 'thehijamaexorcist@gmail.com'
-const FROM =
-	process.env.RESEND_FROM_EMAIL ||
-	'Hijama Exorcist <bookings@hijamaexorcist.com>'
+	process.env.FORM_NOTIFICATION_EMAIL || CLINIC_INBOX_FALLBACK
+const FROM = process.env.RESEND_FROM_EMAIL || CLINIC_FROM_FALLBACK
 
 function header(request: Request, name: string) {
 	return request.headers.get(name) || ''
-}
-
-function isClinicAddress(value: string) {
-	const normalized = value.toLowerCase()
-	return (
-		normalized.includes('bookings@hijamaexorcist.com') ||
-		normalized.includes(CLINIC_INBOX.toLowerCase())
-	)
 }
 
 export async function POST(request: Request) {
