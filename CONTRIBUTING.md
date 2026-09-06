@@ -3,7 +3,7 @@
 1. Clone the repo
 
 ```sh
-git clone git@github.com:hijamaexorcist/hijamaexorcist.git
+git clone git@github.com:hijamaexorcist/hijamaexorcist-sanitypress.git
 ```
 
 2. Create a branch
