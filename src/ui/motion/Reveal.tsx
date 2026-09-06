@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { cn } from '@/lib/utils'
 
@@ -9,25 +9,28 @@ const ease = [0.32, 0.72, 0, 1] as const
 /** Shared viewport: fire when ~15% visible; mild bottom inset so mid-fold still triggers. */
 const inViewViewport = { once: true, amount: 0.15, margin: '0px 0px -8% 0px' } as const
 
+/**
+ * Never hide content with opacity:0 — if motion fails to hydrate or
+ * IntersectionObserver never fires, the page would look "empty".
+ * Motion is limited to a soft rise so copy stays readable without JS.
+ */
 const fadeUp: Variants = {
-	hidden: { opacity: 0, y: 32 },
+	hidden: { y: 24 },
 	visible: {
-		opacity: 1,
 		y: 0,
 		transition: { duration: 0.8, ease },
 	},
 }
 
 const fadeUpReduced: Variants = {
-	hidden: { opacity: 0 },
+	hidden: {},
 	visible: {
-		opacity: 1,
 		transition: { duration: 0.01 },
 	},
 }
 
 /**
- * Entrance fade/rise. Use `immediate` for above-fold (animate on mount);
+ * Entrance rise. Use `immediate` for above-fold (animate on mount);
  * otherwise scrolls into view via whileInView.
  * Motion also respects prefers-reduced-motion; we zero travel when reduced.
  */
@@ -44,14 +47,19 @@ export function Reveal({
 	immediate?: boolean
 }) {
 	const reduced = useReducedMotion()
+	const [ready, setReady] = useState(false)
 	const variants = reduced ? fadeUpReduced : fadeUp
+
+	useEffect(() => {
+		setReady(true)
+	}, [])
 
 	return (
 		<motion.div
 			className={cn(className)}
-			initial="hidden"
-			animate={immediate ? 'visible' : undefined}
-			whileInView={immediate ? undefined : 'visible'}
+			initial={ready ? 'hidden' : false}
+			animate={immediate && ready ? 'visible' : undefined}
+			whileInView={!immediate && ready ? 'visible' : undefined}
 			viewport={immediate ? undefined : inViewViewport}
 			variants={{
 				hidden: variants.hidden,
@@ -87,14 +95,19 @@ export const Stagger = forwardRef<HTMLDivElement, StaggerProps>(
 		ref,
 	) {
 		const reduced = useReducedMotion()
+		const [ready, setReady] = useState(false)
+
+		useEffect(() => {
+			setReady(true)
+		}, [])
 
 		return (
 			<motion.div
 				ref={ref}
 				className={cn(className)}
-				initial="hidden"
-				animate={immediate ? 'visible' : undefined}
-				whileInView={immediate ? undefined : 'visible'}
+				initial={ready ? 'hidden' : false}
+				animate={immediate && ready ? 'visible' : undefined}
+				whileInView={!immediate && ready ? 'visible' : undefined}
 				viewport={immediate ? undefined : inViewViewport}
 				variants={{
 					hidden: {},

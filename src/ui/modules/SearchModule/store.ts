@@ -36,7 +36,7 @@ const SCOPE_MAP = {
 	`,
 	'blog posts': groq`_type == 'blog.post'`,
 	all: groq`
-		_type in ['page', 'blog.post'] &&
+		_type in ['page', 'blog.post', 'product'] &&
 		!(metadata.slug.current in ['404'])
 	`,
 } as const
@@ -72,6 +72,7 @@ export async function handleSearch({
 				modules[].content[].children[].text,
 				modules[].intro[].children[].text,
 				title,
+				excerpt,
 				metadata.title,
 				metadata.description
 			] match $query

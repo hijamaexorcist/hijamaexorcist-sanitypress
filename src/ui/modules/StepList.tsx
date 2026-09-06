@@ -21,7 +21,7 @@ export default function StepList({
 				</header>
 			)}
 
-			<ol className="grid gap-5 md:grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+			<ol className="grid gap-5 md:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]">
 				{steps?.map((step, index) => (
 					<li className="clinic-shell grid grid-cols-[auto_1fr] gap-4 p-6" key={index}>
 						<b className="bg-clinic-sage/70 text-accent grid size-11 place-items-center rounded-full text-sm tabular-nums">

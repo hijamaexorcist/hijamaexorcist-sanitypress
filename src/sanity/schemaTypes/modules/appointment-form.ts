@@ -192,7 +192,7 @@ export default defineType({
 					type: 'array',
 					of: [{ type: 'string' }],
 					initialValue: [
-						'Light sugary snack (to break your fast after the session)',
+						'A light snack if you need one afterward',
 						'2 full body towels',
 						'3 small hand towels',
 					],
@@ -213,9 +213,9 @@ export default defineType({
 					type: 'array',
 					of: [{ type: 'string' }],
 					initialValue: [
-						'Fast for minimum 5 hours before appointment (similar to blood test)',
-						'Only water is permitted during fasting period',
-						'Avoid all food and drinks to ensure optimal detox results',
+						'Follow the preparation guidance sent with your appointment confirmation',
+						'Come hydrated and avoid a heavy meal just before your visit',
+						'Tell us about relevant health conditions, medicines, skin concerns, or pregnancy',
 					],
 				}),
 				defineField({

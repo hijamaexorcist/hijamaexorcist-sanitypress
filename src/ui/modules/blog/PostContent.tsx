@@ -5,6 +5,8 @@ import Authors from './Authors'
 import ReadTime from './ReadTime'
 import TableOfContents from '@/ui/modules/RichtextModule/TableOfContents'
 import Content from '@/ui/modules/RichtextModule/Content'
+import YouTubeEmbed from '@/ui/YouTubeEmbed'
+import { Img } from '@/ui/Img'
 import { cn } from '@/lib/utils'
 import css from './PostContent.module.css'
 
@@ -15,6 +17,7 @@ export default function PostContent({
 	if (!post) return null
 
 	const showTOC = !post.hideTableOfContents || !!post.headings?.length
+	const featuredVideo = post.featuredVideo?.url
 
 	return (
 		<article {...moduleProps(props)}>
@@ -32,12 +35,33 @@ export default function PostContent({
 
 				{post.authors?.length && (
 					<Authors
-						className="flex flex-wrap items-center justify-center gap-4"
+						className="flex flex-wrap items-center gap-4"
 						authors={post.authors}
 						linked
 					/>
 				)}
 			</header>
+
+			{(featuredVideo || post.metadata.image) && (
+				<div className="section max-w-4xl">
+					{featuredVideo ? (
+						<YouTubeEmbed
+							url={featuredVideo}
+							title={post.featuredVideo?.title || post.metadata.title}
+							caption={post.featuredVideo?.caption}
+						/>
+					) : (
+						<figure className="clinic-shell overflow-hidden p-1.5">
+							<Img
+								className="clinic-core aspect-video w-full object-cover"
+								image={post.metadata.image}
+								width={1400}
+								alt={post.metadata.title}
+							/>
+						</figure>
+					)}
+				</div>
+			)}
 
 			<div
 				className={cn(

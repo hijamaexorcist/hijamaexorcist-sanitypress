@@ -6,7 +6,9 @@ import { cn } from '@/lib/utils'
 
 export default function TabList({
 	tabs,
-}: React.ComponentProps<typeof TabbedContent>) {
+}: {
+	tabs?: React.ComponentProps<typeof TabbedContent>['tabs']
+}) {
 	const { active, setActive } = tabbedContentStore()
 
 	return (

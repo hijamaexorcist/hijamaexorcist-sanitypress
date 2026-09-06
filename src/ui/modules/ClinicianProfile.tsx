@@ -74,13 +74,13 @@ export default function ClinicianProfile({
 					</ul>
 				)}
 
-				<div className="mt-10 grid gap-10 md:grid-cols-3 md:items-start">
-					<div className="md:col-span-2">
+				<div className="mt-10 grid gap-10 lg:grid-cols-3 lg:items-start">
+					<div className="lg:col-span-2">
 						{heading && (
 							<h2 className="h2 max-w-3xl text-balance">{heading}</h2>
 						)}
 						<Stagger
-							className="mt-8 grid gap-6 sm:grid-cols-2"
+							className="mt-8 grid gap-6 md:grid-cols-2"
 							delay={0.08}
 							stagger={0.08}
 						>
@@ -101,7 +101,7 @@ export default function ClinicianProfile({
 						</Stagger>
 					</div>
 
-					<div className="md:pt-2 md:text-right">
+					<div className="lg:pt-2 lg:text-right">
 						{name && title && (
 							<p className="font-serif text-3xl">{name}</p>
 						)}
@@ -112,7 +112,7 @@ export default function ClinicianProfile({
 						)}
 						<CTAList
 							ctas={ctas}
-							className="mt-8 md:justify-end"
+							className="mt-8 lg:justify-end"
 						/>
 					</div>
 				</div>

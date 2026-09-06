@@ -1,10 +1,24 @@
 import moduleProps from '@/lib/moduleProps'
 import { Reveal, Stagger, RevealItem } from '@/ui/motion/Reveal'
+import {
+	BookOpenCheck,
+	HeartHandshake,
+	ShieldAlert,
+	Sparkles,
+	type LucideIcon,
+} from 'lucide-react'
 
 type CareStandard = {
 	title?: string
 	description?: string
 }
+
+const icons: LucideIcon[] = [
+	BookOpenCheck,
+	ShieldAlert,
+	HeartHandshake,
+	Sparkles,
+]
 
 export default function CareStandards({
 	pretitle,
@@ -17,39 +31,53 @@ export default function CareStandards({
 	title?: string
 	description?: string
 	standards?: CareStandard[]
-} &
-	Sanity.Module) {
+} & Sanity.Module) {
 	return (
-		<section className="section">
-			<div className="clinic-shell bg-clinic-sage/35 p-1.5" {...moduleProps(props)}>
-				<div className="clinic-core grid gap-10 p-7 md:grid-cols-[minmax(0,0.72fr)_minmax(18rem,0.7fr)] md:p-12">
-					<Reveal>
-						<header className="max-w-xl">
-							{pretitle && <p className="clinic-kicker">{pretitle}</p>}
-							{title && <h2 className="h2 mt-4 text-balance">{title}</h2>}
-							{description && (
-								<p className="mt-5 text-lg leading-relaxed text-ink/70">{description}</p>
-							)}
-						</header>
-					</Reveal>
+		<section className="section" {...moduleProps(props)}>
+			<Reveal>
+				<header className="mx-auto max-w-3xl text-center text-balance">
+					{pretitle && <p className="clinic-kicker">{pretitle}</p>}
+					{title && <h2 className="h2 mt-4">{title}</h2>}
+					{description && (
+						<p className="text-ink/68 mx-auto mt-5 max-w-2xl text-lg leading-relaxed">
+							{description}
+						</p>
+					)}
+				</header>
+			</Reveal>
 
-					<Stagger delay={0.12} stagger={0.09} className="space-y-5">
-						{standards?.map((standard, index) => (
-							<RevealItem
-								className="border-b border-ink/10 pb-5"
-								key={`${standard.title}-${index}`}
-							>
-								{standard.title && <h3 className="text-base font-semibold">{standard.title}</h3>}
+			<Stagger
+				className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 xl:grid-cols-4"
+				delay={0.08}
+				stagger={0.07}
+			>
+				{standards?.map((standard, index) => {
+					const Icon = icons[index % icons.length]
+					return (
+						<RevealItem key={`${standard.title}-${index}`}>
+							<article className="clinic-core border-ink/8 flex h-full flex-col rounded-[1.75rem] border p-6 md:p-7">
+								<span className="bg-clinic-sage/55 text-clinic-clay grid size-12 place-items-center rounded-2xl">
+									<Icon
+										aria-hidden="true"
+										className="size-6"
+										strokeWidth={1.5}
+									/>
+								</span>
+								{standard.title && (
+									<h3 className="mt-6 text-base font-semibold tracking-tight">
+										{standard.title}
+									</h3>
+								)}
 								{standard.description && (
-									<p className="mt-2 text-sm leading-relaxed text-ink/70">
+									<p className="text-ink/68 mt-3 text-sm leading-relaxed">
 										{standard.description}
 									</p>
 								)}
-							</RevealItem>
-						))}
-					</Stagger>
-				</div>
-			</div>
+							</article>
+						</RevealItem>
+					)
+				})}
+			</Stagger>
 		</section>
 	)
 }

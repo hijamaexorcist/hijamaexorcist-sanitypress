@@ -19,9 +19,9 @@ export default function EducationBento({
 	...props
 }: Sanity.EducationBento & Sanity.Module) {
 	return (
-		<section className="section" {...moduleProps(props)} id="hijama-guide">
+		<section className="section" {...moduleProps(props)}>
 			<Reveal>
-				<header className="grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(18rem,0.45fr)] md:items-end">
+				<header className="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(16rem,0.45fr)] lg:items-end">
 					<div>
 						{pretitle && <p className="clinic-kicker">{pretitle}</p>}
 						<h2 className="h2 mt-4 max-w-3xl text-balance">{title}</h2>
@@ -34,15 +34,15 @@ export default function EducationBento({
 				</header>
 			</Reveal>
 			<Stagger
-				className="mt-12 grid auto-rows-[minmax(14rem,auto)] gap-4 md:grid-cols-3"
+				className="mt-10 grid auto-rows-[minmax(12rem,auto)] gap-4 sm:mt-12 lg:grid-cols-3"
 				delay={0.08}
 				stagger={0.08}
 			>
 				{image && (
-					<RevealItem className="clinic-shell overflow-hidden p-1.5 md:col-span-2 md:row-span-2">
+					<RevealItem className="clinic-shell overflow-hidden p-1.5 lg:col-span-2 lg:row-span-2">
 						<ResponsiveImg
 							img={image}
-							className="clinic-core size-full min-h-[28rem] object-cover"
+							className="clinic-core size-full min-h-[16rem] object-cover sm:min-h-[20rem] lg:min-h-[28rem]"
 							width={1500}
 						/>
 					</RevealItem>
@@ -51,7 +51,7 @@ export default function EducationBento({
 					const Icon = icons[index % icons.length]
 					return (
 						<RevealItem
-							className={index === topics.length - 1 ? 'md:col-span-2' : ''}
+							className={index === topics.length - 1 ? 'lg:col-span-2' : ''}
 							key={topic._key}
 						>
 							<article className="clinic-core border-ink/8 h-full rounded-[1.75rem] border p-6 shadow-[0_18px_45px_rgb(35_51_43_/_0.06),inset_0_1px_0_rgb(255_255_255_/_0.8)] md:p-7">

@@ -20,6 +20,7 @@ export default defineType({
 				{ type: 'block' },
 				imageBlock,
 				admonition,
+				{ type: 'youtube' },
 				defineArrayMember({
 					title: 'Code block',
 					type: 'code',
@@ -29,6 +30,14 @@ export default defineType({
 				}),
 				{ type: 'custom-html' },
 			],
+			group: 'content',
+		}),
+		defineField({
+			name: 'featuredVideo',
+			title: 'Featured video',
+			type: 'youtube',
+			description:
+				'Optional YouTube video shown at the top of the article and as a Watch badge on journal cards.',
 			group: 'content',
 		}),
 		defineField({

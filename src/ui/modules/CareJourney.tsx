@@ -23,9 +23,9 @@ export default function CareJourney({
 } &
 	Sanity.Module) {
 	return (
-		<section className="section" {...moduleProps(props)} id="your-visit">
+		<section className="section" {...moduleProps(props)}>
 			<Reveal>
-				<div className="grid items-end gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(16rem,0.45fr)]">
+				<div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(16rem,0.45fr)]">
 					<header className="max-w-2xl">
 						{pretitle && <p className="clinic-kicker">{pretitle}</p>}
 						{title && <h2 className="h2 mt-4 text-balance">{title}</h2>}
@@ -35,14 +35,14 @@ export default function CareJourney({
 							</p>
 						)}
 					</header>
-					{cta && <CTA {...cta} className="action justify-between md:justify-self-end" />}
+					{cta && <CTA {...cta} className="action justify-between max-sm:w-full lg:justify-self-end" />}
 				</div>
 			</Reveal>
 
 			<Stagger
 				delay={0.08}
 				stagger={0.1}
-				className="mt-12 grid gap-5 md:grid-cols-3"
+				className="mt-10 grid gap-5 sm:mt-12 md:grid-cols-2 xl:grid-cols-3"
 			>
 				{items?.map((item, index) => (
 					<RevealItem key={`${item.title}-${index}`} className="h-full">

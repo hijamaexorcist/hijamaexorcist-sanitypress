@@ -7,12 +7,12 @@ export default async function Menu() {
 	const { headerMenu } = await getSite()
 
 	const parentClassName = cn(
-		'flex min-h-11 items-center text-sm text-ink/70 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-ink md:px-3 md:text-center md:leading-tight',
+		'flex min-h-11 shrink-0 items-center whitespace-nowrap text-sm text-ink/70 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-ink lg:px-3 lg:text-center lg:leading-tight',
 	)
 
 	return (
 		<nav
-			className="max-md:anim-fade-to-r max-md:header-closed:hidden flex gap-y-2 [grid-area:nav] max-md:my-5 max-md:flex-col md:justify-center"
+			className="max-lg:anim-fade-to-r max-lg:header-closed:hidden flex gap-x-1 gap-y-2 [grid-area:nav] max-lg:my-5 max-lg:flex-col lg:justify-center xl:gap-x-2"
 			role="navigation"
 		>
 			{headerMenu?.items?.map((item, key) => {
@@ -22,7 +22,7 @@ export default async function Menu() {
 							<CTA
 								className={cn(
 									parentClassName,
-									'md:grid md:place-content-center',
+									'lg:grid lg:place-content-center',
 								)}
 								link={item}
 								key={key}

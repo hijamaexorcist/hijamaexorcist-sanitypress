@@ -15,11 +15,11 @@ export default async function Header() {
 	const logoImage = logo?.image?.dark || logo?.image?.default
 
 	return (
-		<Wrapper className="sticky top-0 z-10 px-4 pt-4 md:px-8 md:pt-6">
+		<Wrapper className="sticky top-0 z-50 px-4 pt-[max(1rem,env(safe-area-inset-top))] md:px-8 md:pt-6">
 			<div
 				className={cn(
 					css.header,
-					'bg-canvas/92 ring-ink/8 max-md:header-open:rounded-[2rem] max-md:header-open:shadow-[0_24px_60px_rgb(24_53_43_/_0.16)] mx-auto grid max-w-screen-xl items-center gap-x-6 rounded-full px-5 py-3 shadow-[0_16px_38px_rgb(35_51_43_/_0.08)] ring-1 backdrop-blur-lg transition-shadow duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:px-7',
+					'bg-canvas/92 ring-ink/8 max-lg:header-open:rounded-[2rem] max-lg:header-open:shadow-[0_24px_60px_rgb(24_53_43_/_0.16)] mx-auto grid max-w-screen-xl items-center gap-x-4 rounded-full px-4 py-3 shadow-[0_16px_38px_rgb(35_51_43_/_0.08)] ring-1 backdrop-blur-lg transition-shadow duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] sm:px-5 lg:gap-x-6 lg:px-7',
 				)}
 			>
 				<div className="[grid-area:logo]">
@@ -53,7 +53,7 @@ export default async function Header() {
 
 				<CTAList
 					ctas={ctas}
-					className="max-md:header-closed:hidden [grid-area:ctas] max-md:*:w-full md:ms-auto"
+					className="max-lg:header-closed:hidden [grid-area:ctas] max-lg:*:w-full lg:ms-auto lg:shrink-0 lg:[&_a]:whitespace-nowrap"
 				/>
 
 				<div className="flex items-center gap-1 [grid-area:controls] md:gap-2">

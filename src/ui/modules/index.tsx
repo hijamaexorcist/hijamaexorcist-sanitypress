@@ -24,11 +24,14 @@ import ContactFormModule from './ContactFormModule'
 import AppointmentFormModule from './appointmentFormModule'
 import CareJourney from './CareJourney'
 import CareStandards from './CareStandards'
+import CareBenefits from './CareBenefits'
 import ClinicMap from './ClinicMap'
 import ClinicianProfile from './ClinicianProfile'
 import TraditionGuidance from './TraditionGuidance'
 import EducationBento from './EducationBento'
 import VideoLibrary from './VideoLibrary'
+import ClinicGallery from './ClinicGallery'
+import ShopList from './ShopList'
 import dynamic from 'next/dynamic'
 import { createDataAttribute } from 'next-sanity'
 
@@ -52,6 +55,7 @@ const MODULE_MAP = {
 	'richtext-module': RichtextModule,
 	'schedule-module': ScheduleModule,
 	'search-module': SearchModule,
+	'shop-list': ShopList,
 	'stat-list': StatList,
 	'step-list': StepList,
 	'tabbed-content': TabbedContent,
@@ -62,11 +66,13 @@ const MODULE_MAP = {
 	'appointment-form-module': AppointmentFormModule,
 	'care-journey': CareJourney,
 	'care-standards': CareStandards,
+	'care-benefits': CareBenefits,
 	'clinic-map': ClinicMap,
 	'clinician-profile': ClinicianProfile,
 	'tradition-guidance': TraditionGuidance,
 	'education-bento': EducationBento,
 	'video-library': VideoLibrary,
+	'clinic-gallery': ClinicGallery,
 } as const
 
 export default function Modules({

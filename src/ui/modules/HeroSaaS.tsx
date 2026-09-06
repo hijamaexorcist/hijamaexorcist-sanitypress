@@ -41,7 +41,7 @@ export default function HeroSaaS({
 			{...moduleProps(props)}
 		>
 			<div aria-hidden="true" className="clinic-hero-atmosphere" />
-			<div className="section relative grid min-h-[min(760px,calc(100dvh-var(--header-height)))] items-center gap-12 py-16 md:grid-cols-[minmax(0,0.95fr)_minmax(20rem,0.75fr)] md:py-24">
+			<div className="section relative grid items-center gap-10 py-12 sm:py-16 lg:min-h-[min(760px,calc(100dvh-var(--header-height)))] lg:grid-cols-[minmax(0,0.95fr)_minmax(18rem,0.75fr)] lg:gap-12 lg:py-24">
 				<Reveal immediate className="richtext max-w-2xl text-balance">
 					<Pretitle className="clinic-kicker">{pretitle}</Pretitle>
 					<PortableText
@@ -92,7 +92,7 @@ export default function HeroSaaS({
 								img={asset}
 								pictureProps={{
 									className: cn(
-										'clinic-core block overflow-hidden [&_img]:aspect-[4/5] [&_img]:w-full [&_img]:object-cover',
+										'clinic-core block overflow-hidden [&_img]:aspect-[16/10] [&_img]:w-full [&_img]:object-cover sm:[&_img]:aspect-[5/4] lg:[&_img]:aspect-[4/5]',
 										assetFaded && '[&_img]:opacity-85',
 									),
 								}}

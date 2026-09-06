@@ -24,13 +24,13 @@ export default function HeroSplit({
 	const asset = assets?.[0]
 
 	return (
-		<section className="section grid min-h-[min(740px,calc(100dvh-var(--header-height)))] items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.8fr)] md:gap-x-20">
+		<section className="section grid items-center gap-8 lg:min-h-[min(740px,calc(100dvh-var(--header-height)))] lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.8fr)] lg:gap-x-20">
 			<figure
 				className={cn(
 					'clinic-shell overflow-hidden',
-					asset?._type === 'img' && 'max-md:-mx-6 max-md:w-[calc(100%+3rem)]',
-					assetOnRight ? 'md:order-1' : 'order-first max-md:order-last',
-					assetBelowContent && 'max-md:order-last',
+					asset?._type === 'img' && 'max-lg:-mx-5 max-lg:w-[calc(100%+2.5rem)]',
+					assetOnRight ? 'lg:order-1' : 'order-first max-lg:order-last',
+					assetBelowContent && 'max-lg:order-last',
 				)}
 			>
 				<div className="clinic-core overflow-hidden [&_img]:aspect-[4/5] [&_img]:w-full [&_img]:object-cover">

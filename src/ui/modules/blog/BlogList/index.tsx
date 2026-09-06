@@ -47,6 +47,7 @@ export default async function BlogList({
 			${limit ? `[0...${limit}]` : ''}
 			{
 				...,
+				featuredVideo,
 				categories[]->,
 				authors[]->,
 				metadata{

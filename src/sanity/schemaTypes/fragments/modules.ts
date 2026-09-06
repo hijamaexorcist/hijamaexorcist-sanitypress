@@ -24,6 +24,7 @@ export default defineField({
 		{ type: 'richtext-module' },
 		{ type: 'schedule-module' },
 		{ type: 'search-module' },
+		{ type: 'shop-list' },
 		{ type: 'stat-list' },
 		{ type: 'step-list' },
 		{ type: 'tabbed-content' },
@@ -34,11 +35,13 @@ export default defineField({
 		{ type: 'appointment-form-module' },
 		{ type: 'care-journey' },
 		{ type: 'care-standards' },
+		{ type: 'care-benefits' },
 		{ type: 'clinic-map' },
 		{ type: 'clinician-profile' },
 		{ type: 'tradition-guidance' },
 		{ type: 'education-bento' },
 		{ type: 'video-library' },
+		{ type: 'clinic-gallery' },
 	],
 	options: {
 		insertMenu: {
@@ -66,6 +69,7 @@ export default defineField({
 						'logo-list',
 						'person-list',
 						'pricing-list',
+						'shop-list',
 						'stat-list',
 						'step-list',
 						'testimonial-list',
@@ -81,11 +85,13 @@ export default defineField({
 					of: [
 						'care-journey',
 						'care-standards',
+						'care-benefits',
 						'clinic-map',
 						'clinician-profile',
 						'tradition-guidance',
 						'education-bento',
 						'video-library',
+						'clinic-gallery',
 					],
 				},
 				{

@@ -9,8 +9,8 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 	if (!post) return null
 
 	return (
-		<div className="group relative isolate grid items-center gap-x-8 gap-y-4 md:grid-cols-2">
-			<figure className="max-md:full-bleed bg-ink/5 relative aspect-video overflow-hidden md:self-start">
+		<div className="group relative isolate grid items-center gap-x-8 gap-y-6 lg:grid-cols-2">
+			<figure className="max-lg:full-bleed bg-ink/5 relative aspect-video overflow-hidden lg:self-start">
 				<Img
 					className="aspect-video w-full object-cover transition-all group-hover:scale-105 group-hover:brightness-110"
 					image={post.metadata.image}
@@ -24,10 +24,15 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 						Featured
 					</span>
 				)}
+				{post.featuredVideo?.url && (
+					<span className="bg-canvas text-ink absolute bottom-3 left-3 inline-flex min-h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold tracking-[0.12em] uppercase">
+						Watch
+					</span>
+				)}
 			</figure>
 
 			<div className="mx-auto max-w-lg space-y-4">
-				<div className="h2 md:h1">
+				<div className="h2 lg:h1">
 					<Link
 						className="group-hover:underline"
 						href={resolveUrl(post, { base: false })}
@@ -37,7 +42,7 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 					</Link>
 				</div>
 
-				<p className="line-clamp-4 max-md:text-sm">
+				<p className="line-clamp-4 max-lg:text-sm">
 					{post.metadata.description}
 				</p>
 

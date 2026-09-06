@@ -12,19 +12,26 @@ export default function Wrapper({
 
 	// set --header-height
 	useEffect(() => {
-		if (typeof window === 'undefined') return
+		const el = ref.current
+		if (!el) return
 
 		function setHeight() {
-			if (!ref.current) return
+			const node = ref.current
+			if (!node) return
 			document.documentElement.style.setProperty(
 				'--header-height',
-				`${ref.current.offsetHeight ?? 0}px`,
+				`${node.offsetHeight ?? 0}px`,
 			)
 		}
 		setHeight()
+		const observer = new ResizeObserver(setHeight)
+		observer.observe(el)
 		window.addEventListener('resize', setHeight)
 
-		return () => window.removeEventListener('resize', setHeight)
+		return () => {
+			observer.disconnect()
+			window.removeEventListener('resize', setHeight)
+		}
 	}, [])
 
 	// close menus after navigation

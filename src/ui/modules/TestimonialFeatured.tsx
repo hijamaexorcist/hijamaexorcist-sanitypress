@@ -17,7 +17,7 @@ export default function TestimonialFeatured({
 		<section className="section">
 			<Reveal>
 				<figure className="clinic-shell mx-auto max-w-3xl p-1.5">
-					<div className="clinic-core grid items-center gap-8 p-7 md:grid-cols-[minmax(0,1fr)_auto] md:gap-10 md:p-10">
+					<div className="clinic-core grid items-center gap-8 p-6 sm:p-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10 lg:p-10">
 						<blockquote className="min-w-0">
 							<span
 								aria-hidden="true"

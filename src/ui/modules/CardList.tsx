@@ -48,8 +48,8 @@ export default function CardList({
 						: [
 								'grid *:h-full max-md:pb-4',
 								columns
-									? 'md:grid-cols-[repeat(var(--col,3),minmax(0,1fr))]'
-									: 'sm:grid-cols-[repeat(auto-fill,minmax(var(--size,300px),1fr))]',
+									? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-[repeat(var(--col,3),minmax(0,1fr))]'
+									: 'sm:grid-cols-[repeat(auto-fill,minmax(min(100%,var(--size,300px)),1fr))]',
 							],
 				)}
 				style={

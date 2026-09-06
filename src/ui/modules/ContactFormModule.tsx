@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import moduleProps from '@/lib/moduleProps'
 import { getRecaptchaToken } from '@/lib/recaptcha'
 import CTAList from '@/ui/CTAList'
@@ -55,7 +56,15 @@ interface ContactFormModuleProps {
 	_key?: string
 }
 
-export default function ContactFormModule({
+export default function ContactFormModule(props: ContactFormModuleProps) {
+	return (
+		<Suspense fallback={null}>
+			<ContactFormModuleInner {...props} />
+		</Suspense>
+	)
+}
+
+function ContactFormModuleInner({
 	title = 'Contact the clinic',
 	description = 'Have a practical question before booking? Send a private enquiry and the clinic will respond as soon as possible.',
 	ctas,
@@ -72,8 +81,18 @@ export default function ContactFormModule({
 		'General enquiry',
 		'Booking question',
 		'Preparation question',
+		'Shop enquiry',
 	]
-	const reasons = reasonOptions?.length ? reasonOptions : fallbackReasons
+	const searchParams = useSearchParams()
+	const productPrefill = searchParams.get('product')?.trim() || ''
+	const reasonPrefill = searchParams.get('reason')?.trim() || ''
+	const reasons = Array.from(
+		new Set([
+			...(reasonOptions?.length ? reasonOptions : fallbackReasons),
+			...(reasonPrefill ? [reasonPrefill] : []),
+			...(productPrefill ? ['Shop enquiry'] : []),
+		]),
+	)
 	const messageCopy = {
 		success:
 			'Your message has been sent. The clinic will get back to you soon.',
@@ -87,12 +106,28 @@ export default function ContactFormModule({
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
-		message: '',
-		reason: reasons[0] || 'General Inquiry',
+		message: productPrefill
+			? `I am enquiring about: ${productPrefill}`
+			: '',
+		reason: reasonPrefill || (productPrefill ? 'Shop enquiry' : reasons[0]),
 		consent: false,
 		website: '',
 		gCaptchaResponse: '',
 	})
+
+	useEffect(() => {
+		const product = searchParams.get('product')?.trim()
+		const reason = searchParams.get('reason')?.trim()
+		if (!product && !reason) return
+		setFormData((current) => ({
+			...current,
+			message:
+				product && !current.message.includes(product)
+					? `I am enquiring about: ${product}`
+					: current.message,
+			reason: reason || (product ? 'Shop enquiry' : current.reason),
+		}))
+	}, [searchParams])
 
 	const [status, setStatus] = useState<
 		'idle' | 'submitting' | 'success' | 'error'

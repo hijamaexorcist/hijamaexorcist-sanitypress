@@ -6,6 +6,7 @@ export default function Root(props: ComponentProps<'html'>) {
 		<html
 			{...props}
 			lang={languages?.[0] || 'en'}
+			className="show-scrollbars"
 			data-scroll-behavior="smooth"
 			suppressHydrationWarning
 		/>

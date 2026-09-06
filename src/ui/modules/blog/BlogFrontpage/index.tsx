@@ -35,6 +35,7 @@ export default async function BlogFrontpage({
 				authors[]->,
 				publishDate,
 				language,
+				featuredVideo,
 				metadata {
 					...,
 					image { ${IMAGE_QUERY} }

@@ -30,6 +30,11 @@ export default function PostPreview({
 						Featured
 					</span>
 				)}
+				{post?.featuredVideo?.url && (
+					<span className="bg-canvas text-ink absolute bottom-3 left-3 inline-flex min-h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold tracking-[0.12em] uppercase">
+						Watch
+					</span>
+				)}
 			</figure>
 
 			<div className="flex grow flex-col p-6">

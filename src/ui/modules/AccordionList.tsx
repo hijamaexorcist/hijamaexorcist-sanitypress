@@ -1,5 +1,6 @@
 import moduleProps from '@/lib/moduleProps'
 import Pretitle from '@/ui/Pretitle'
+import CTAList from '@/ui/CTAList'
 import { PortableText } from 'next-sanity'
 import { Reveal } from '@/ui/motion/Reveal'
 import Image from './RichtextModule/Image'
@@ -10,6 +11,7 @@ import { cn } from '@/lib/utils'
 export default function AccordionList({
 	pretitle,
 	intro,
+	ctas,
 	items,
 	layout = 'vertical',
 	connect,
@@ -18,6 +20,7 @@ export default function AccordionList({
 }: Partial<{
 	pretitle: string
 	intro: any
+	ctas: Sanity.CTA[]
 	items: {
 		_key?: string
 		summary: string
@@ -33,7 +36,7 @@ export default function AccordionList({
 		<section
 			className={cn(
 				'section',
-				layout === 'horizontal' ? 'grid gap-8 md:grid-cols-2' : 'space-y-8',
+				layout === 'horizontal' ? 'grid gap-8 lg:grid-cols-2' : 'space-y-8',
 			)}
 			{...(generateSchema && {
 				itemScope: true,
@@ -50,8 +53,15 @@ export default function AccordionList({
 							: 'text-center',
 					)}
 				>
-					<Pretitle>{pretitle}</Pretitle>
+					<Pretitle className="clinic-kicker">{pretitle}</Pretitle>
 					<PortableText value={intro} />
+					<CTAList
+						className={cn(
+							'mt-6',
+							layout === 'horizontal' ? '' : 'justify-center',
+						)}
+						ctas={ctas}
+					/>
 				</header>
 			</Reveal>
 

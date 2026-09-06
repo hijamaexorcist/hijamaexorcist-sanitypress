@@ -13,7 +13,7 @@ export default defineType({
 		defineField({
 			name: 'standards',
 			type: 'array',
-			validation: (Rule) => Rule.required().min(2).max(4),
+			validation: (Rule) => Rule.required().min(2).max(6),
 			of: [
 				defineArrayMember({
 					name: 'standard',

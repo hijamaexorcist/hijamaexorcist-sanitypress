@@ -46,6 +46,15 @@ export const MODULES_QUERY = groq`
 		...,
 		link{ ${LINK_QUERY} }
 	},
+	_type == 'accordion-list' => {
+		items[]{
+			...,
+			content[]{
+				...,
+				_type == 'image' => { ${IMAGE_QUERY} }
+			}
+		}
+	},
 	_type == 'blog-list' => { filteredCategory-> },
 	_type == 'breadcrumbs' => { crumbs[]{ ${LINK_QUERY} } },
 	_type == 'callout' => {
@@ -103,6 +112,12 @@ export const MODULES_QUERY = groq`
 		_type == 'logo-list' => { logos[]-> },
 		_type == 'education-bento' => { image { ${ASSET_IMG_QUERY} } },
 		_type == 'clinician-profile' => { portrait { ${ASSET_IMG_QUERY} } },
+		_type == 'clinic-gallery' => {
+			images[]{
+				...,
+				image { ${ASSET_IMG_QUERY} }
+			}
+		},
 	_type == 'person-list' => { people[]-> },
 	_type == 'pricing-list' => {
 		tiers[]->{
@@ -125,7 +140,11 @@ export const MODULES_QUERY = groq`
 	_type == 'tabbed-content' => {
 		tabs[]{
 			...,
-			ctas[]{ ${CTA_QUERY} }
+			ctas[]{ ${CTA_QUERY} },
+			assets[]{
+				...,
+				_type == 'img' => { ${ASSET_IMG_QUERY} }
+			}
 		}
 	},
 	_type == 'testimonial.featured' => { testimonial-> },
@@ -159,6 +178,7 @@ export async function getSite() {
 				'ogimage': ogimage.asset->url
 			}
 		`,
+		next: { revalidate: 30 },
 	})
 
 	if (!site) throw new Error(errors.missingSiteSettings)

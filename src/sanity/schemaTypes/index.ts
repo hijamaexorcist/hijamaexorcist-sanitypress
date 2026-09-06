@@ -6,6 +6,8 @@ import page from './documents/page'
 import globalModule from './documents/global-module'
 import blogPost from './documents/blog.post'
 import blogCategory from './documents/blog.category'
+import product from './documents/product'
+import productCategory from './documents/product.category'
 import navigation from './documents/navigation'
 import redirect from './documents/redirect'
 
@@ -24,6 +26,7 @@ import img from './objects/img'
 import link from './objects/link'
 import linkList from './objects/link.list'
 import metadata from './objects/metadata'
+import youtube from './objects/youtube'
 import moduleOptions from './objects/module-options'
 
 // modules
@@ -56,11 +59,14 @@ import contactFormModule from './modules/contact-form'
 import appointmentForm from './modules/appointment-form'
 import careJourney from './modules/care-journey'
 import careStandards from './modules/care-standards'
+import careBenefits from './modules/care-benefits'
 import clinicMap from './modules/clinic-map'
 import clinicianProfile from './modules/clinician-profile'
 import traditionGuidance from './modules/tradition-guidance'
 import educationBento from './modules/education-bento'
 import videoLibrary from './modules/video-library'
+import clinicGallery from './modules/clinic-gallery'
+import shopList from './modules/shop-list'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
 	// documents
@@ -69,6 +75,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	globalModule,
 	blogPost,
 	blogCategory,
+	product,
+	productCategory,
 	navigation,
 
 	// miscellaneous
@@ -87,6 +95,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	link,
 	linkList,
 	metadata,
+	youtube,
 	moduleOptions,
 
 	// modules
@@ -119,9 +128,12 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	appointmentForm,
 	careJourney,
 	careStandards,
+	careBenefits,
 	clinicMap,
 	clinicianProfile,
 	traditionGuidance,
 	educationBento,
 	videoLibrary,
+	clinicGallery,
+	shopList,
 ]

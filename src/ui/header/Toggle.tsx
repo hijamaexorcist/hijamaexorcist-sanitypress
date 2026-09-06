@@ -1,6 +1,6 @@
 export default function Toggle() {
 	return (
-		<label className="relative grid size-11 cursor-pointer place-items-center [grid-area:toggle] md:hidden">
+		<label className="relative grid size-11 cursor-pointer place-items-center lg:hidden">
 			<input id="header-toggle" type="checkbox" hidden />
 
 			<span className="sr-only header-open:hidden">Open menu</span>

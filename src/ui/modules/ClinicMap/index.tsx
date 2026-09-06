@@ -31,7 +31,7 @@ export default function ClinicMap({
 		<section className="section" {...moduleProps(props)}>
 			<Reveal>
 				<div className="clinic-shell overflow-hidden">
-					<div className="clinic-core grid overflow-hidden md:grid-cols-[minmax(0,1.15fr)_minmax(17rem,0.72fr)]">
+					<div className="clinic-core grid overflow-hidden lg:grid-cols-[minmax(0,1.15fr)_minmax(17rem,0.72fr)]">
 						<MapCanvas
 							locationName={name}
 							address={place}

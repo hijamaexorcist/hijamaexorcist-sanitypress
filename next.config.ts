@@ -14,6 +14,9 @@ const client = createClient({
 })
 
 export default {
+	// Allow local IP / 127.0.0.1 to load Next dev assets (hydration, HMR)
+	allowedDevOrigins: ['127.0.0.1', '127.144.130.111'],
+
 	images: {
 		dangerouslyAllowSVG: true,
 		remotePatterns: [
@@ -36,7 +39,8 @@ export default {
 					select(
 						destination.internal->._type == 'blog.post' => '/${BLOG_DIR}/',
 						'/'
-					) + destination.internal->.metadata.slug.current,
+					) + destination.internal->.metadata.slug.current
+					+ coalesce(destination.params, ''),
 				destination.external
 			),
 			permanent

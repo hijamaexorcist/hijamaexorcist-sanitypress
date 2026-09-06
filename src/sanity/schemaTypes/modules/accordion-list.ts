@@ -28,6 +28,13 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
+			name: 'ctas',
+			title: 'Call-to-actions',
+			type: 'array',
+			of: [{ type: 'cta' }],
+			group: 'content',
+		}),
+		defineField({
 			name: 'items',
 			type: 'array',
 			of: [

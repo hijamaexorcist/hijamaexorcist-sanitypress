@@ -16,7 +16,7 @@ export default function TraditionGuidance({
 }: Sanity.TraditionGuidance & Sanity.Module) {
 	return (
 		<section className="full-bleed bg-ink text-canvas" {...moduleProps(props)}>
-			<div className="section grid gap-12 md:grid-cols-[minmax(0,0.72fr)_minmax(22rem,0.58fr)] md:items-center">
+			<div className="section grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(20rem,0.58fr)] lg:items-center lg:gap-12">
 				<Reveal>
 					<div>
 						{pretitle && (
@@ -37,7 +37,7 @@ export default function TraditionGuidance({
 							className="size-7 text-[#dda187]"
 							strokeWidth={1.5}
 						/>
-						<blockquote className="mt-8 font-serif text-3xl leading-[1.08] text-balance md:text-4xl">
+						<blockquote className="mt-8 font-serif text-[1.65rem] leading-[1.12] text-balance sm:text-3xl md:text-4xl">
 							“{quote}”
 						</blockquote>
 						<figcaption className="border-canvas/12 text-canvas/65 mt-7 flex flex-wrap items-center justify-between gap-4 border-t pt-5 text-sm">
@@ -55,7 +55,7 @@ export default function TraditionGuidance({
 					</figure>
 				</Reveal>
 				{quranNote && (
-					<div className="border-canvas/12 text-canvas/65 border-t pt-8 text-sm leading-relaxed md:col-span-2">
+					<div className="border-canvas/12 text-canvas/65 border-t pt-8 text-sm leading-relaxed lg:col-span-2">
 						<p className="max-w-4xl">
 							{quranNote}{' '}
 							{quranUrl && (

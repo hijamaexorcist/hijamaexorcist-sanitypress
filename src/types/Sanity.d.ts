@@ -73,11 +73,42 @@ declare global {
 			featured: boolean
 			hideTableOfContents: boolean
 			publishDate: string
+			featuredVideo?: {
+				url?: string
+				title?: string
+				caption?: string
+			}
 		}
 
 		interface BlogCategory extends SanityDocument {
 			title: string
 			slug: { current: string }
+		}
+
+		interface Product extends PageBase {
+			readonly _type: 'product'
+			title: string
+			excerpt?: string
+			image?: Image
+			gallery?: Image[]
+			price?: number
+			priceNote?: string
+			content?: any
+			ctas?: CTA[]
+			available?: boolean
+			availability?: 'enquire' | 'in-stock' | 'unavailable'
+			featured?: boolean
+			displayOrder?: number
+			tags?: string[]
+			category?: ProductCategory
+		}
+
+		interface ProductCategory extends SanityDocument {
+			readonly _type: 'product.category'
+			title: string
+			slug?: { current: string }
+			description?: string
+			displayOrder?: number
 		}
 
 		// miscellaneous
@@ -177,6 +208,7 @@ declare global {
 		}
 
 		interface Image extends SanityAssetDocument {
+			_key?: string
 			alt: string
 			loading: 'lazy' | 'eager'
 		}
@@ -185,7 +217,7 @@ declare global {
 			readonly _type: 'link'
 			label: string
 			type: 'internal' | 'external'
-			internal?: Page | BlogPost
+			internal?: Page | BlogPost | Product
 			external?: string
 			params?: string
 		}
@@ -242,6 +274,46 @@ declare global {
 			note?: string
 		}
 
+		interface ShopList {
+			pretitle?: string
+			intro?: any
+			emptyNote?: string
+			showCategoryFilter?: boolean
+			showTagFilter?: boolean
+		}
+
+		interface CareStandards {
+			pretitle?: string
+			title?: string
+			description?: string
+			standards?: Array<{
+				title?: string
+				description?: string
+			}>
+		}
+
+		interface CareBenefits {
+			pretitle?: string
+			title?: string
+			description?: string
+			items?: Array<{
+				_key?: string
+				title?: string
+				description?: string
+			}>
+			disclaimer?: string
+		}
+
+		interface ClinicGallery {
+			pretitle?: string
+			title?: string
+			description?: string
+			images?: Array<{
+				_key: string
+				image?: Img
+				caption?: string
+			}>
+		}
 		interface TraditionGuidance {
 			pretitle?: string
 			title?: string

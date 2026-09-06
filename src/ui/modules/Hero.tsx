@@ -36,7 +36,7 @@ export default function Hero({
 			className={cn(
 				'relative isolate',
 				hasImage &&
-					'min-h-[min(760px,calc(100dvh-var(--header-height)))]',
+					'lg:min-h-[min(760px,calc(100dvh-var(--header-height)))]',
 			)}
 			{...moduleProps(props)}
 		>
@@ -50,15 +50,15 @@ export default function Hero({
 				className={cn(
 					'section relative grid items-center gap-10',
 					hasImage
-						? 'md:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.8fr)] md:gap-16'
+						? 'lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.8fr)] lg:gap-16'
 						: 'py-12 md:py-16',
 				)}
 			>
 				{hasImage && (
-					<div className="clinic-shell order-first overflow-hidden md:order-last md:rotate-[1.5deg]">
+					<div className="clinic-shell order-last overflow-hidden lg:rotate-[1.5deg]">
 						<ResponsiveImg
 							img={asset}
-							className="clinic-core aspect-[4/5] size-full object-cover"
+							className="clinic-core aspect-[16/10] size-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
 							width={2400}
 							draggable={false}
 						/>

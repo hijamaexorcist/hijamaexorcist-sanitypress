@@ -26,6 +26,7 @@ export default defineType({
 				{ type: 'block' },
 				imageBlock,
 				admonition,
+				{ type: 'youtube' },
 				defineArrayMember({
 					title: 'Code block',
 					type: 'code',

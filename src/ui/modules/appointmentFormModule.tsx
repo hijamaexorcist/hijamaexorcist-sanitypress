@@ -80,7 +80,7 @@ export default function AppointmentFormModule({
 	const [reference, setReference] = useState('')
 	const [confirmationSent, setConfirmationSent] = useState<boolean | null>(null)
 	const [errorMessage, setErrorMessage] = useState('')
-	const [showPreparation, setShowPreparation] = useState(false)
+	const [showPreparation, setShowPreparation] = useState(true)
 	const selectedDate = formData.date ? asLocalDate(formData.date) : undefined
 	const hijriDate = selectedDate ? getHijriDate(selectedDate) : undefined
 	const selectedDayIsSunnah = selectedDate ? isSunnahDay(selectedDate) : false

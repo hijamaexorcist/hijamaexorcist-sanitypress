@@ -12,10 +12,11 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import '@/styles/app.css'
 import Script from 'next/script'
 import LanguageSync from '@/ui/LanguageSync'
+import OverlayScrollbars from '@/ui/OverlayScrollbars'
 import type { Viewport } from 'next'
 
 export const viewport: Viewport = {
-	themeColor: '#f5f4ed',
+	themeColor: '#101b17',
 }
 
 export default async function RootLayout({
@@ -33,10 +34,11 @@ export default async function RootLayout({
 					id="theme-preference"
 					strategy="beforeInteractive"
 					dangerouslySetInnerHTML={{
-						__html: `(function(){try{var t=localStorage.getItem('hijama-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);var v=d?'dark':'light';document.documentElement.dataset.theme=v;document.documentElement.style.colorScheme=v;var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?'#101b17':'#f5f4ed'}catch(e){document.documentElement.dataset.theme='light'}})();`,
+						__html: `(function(){var K='hijama-theme';function sync(v){document.documentElement.dataset.theme=v;document.documentElement.style.colorScheme=v;document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=v==='dark'?'#101b17':'#f5f4ed'})}function apply(v){sync(v);try{localStorage.setItem(K,v)}catch(e){}try{window.dispatchEvent(new CustomEvent('hijama-theme',{detail:v}))}catch(e){}}function preferred(){try{var t=localStorage.getItem(K);return t==='dark'||t==='light'?t:'dark'}catch(e){return 'dark'}}try{sync(preferred())}catch(e){document.documentElement.dataset.theme='dark'}document.addEventListener('click',function(e){var btn=e.target&&e.target.closest&&e.target.closest('[data-theme-toggle]');if(!btn)return;e.preventDefault();e.stopPropagation();var cur=document.documentElement.dataset.theme==='dark'?'dark':'light';apply(cur==='dark'?'light':'dark')},true)})();`,
 					}}
 				/>
 				<LanguageSync />
+				<OverlayScrollbars />
 				{recaptchaSiteKey && (
 					<Script
 						src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}

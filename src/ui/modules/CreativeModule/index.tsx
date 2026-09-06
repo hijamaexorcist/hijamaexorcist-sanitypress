@@ -52,7 +52,7 @@ export default function CreativeModule({
 
 				<div
 					className={cn(
-						'grid items-center md:grid-cols-[repeat(var(--col,1),minmax(0px,1fr))]',
+						'grid items-center lg:grid-cols-[repeat(var(--col,1),minmax(0px,1fr))]',
 						visualSeparation ? 'gap-4' : 'gap-x-12 gap-y-8',
 					)}
 					style={
@@ -66,7 +66,7 @@ export default function CreativeModule({
 					{modules?.map(({ subModules, colSpan = 1 }, i) => (
 						<article
 							className={cn('space-y-4', {
-								'md:col-(--col-span,1)': colSpan > 1,
+								'lg:col-(--col-span,1)': colSpan > 1,
 								'bg-accent/3 rounded p-6': visualSeparation,
 								'flex flex-col justify-center': alignItems === 'stretch',
 							})}

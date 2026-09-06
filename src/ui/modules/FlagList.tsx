@@ -26,7 +26,7 @@ export default function FlagList({
 				</header>
 			)}
 
-			<div className="grid items-start gap-x-8 gap-y-6 md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+			<div className="grid items-start gap-x-8 gap-y-6 lg:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]">
 				{items?.map(({ icon, content }, key) => (
 					<article
 						className={cn(

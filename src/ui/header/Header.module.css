@@ -2,9 +2,9 @@
 	grid-template:
 		'logo controls' auto
 		'nav nav' auto
-		'ctas ctas' auto / 1fr auto;
+		'ctas ctas' auto / minmax(0, 1fr) auto;
 
-	@media (width >= 48rem) {
-		grid-template: 'logo nav controls ctas' auto / auto 1fr auto auto;
+	@media (width >= 64rem) {
+		grid-template: 'logo nav controls ctas' auto / auto minmax(0, 1fr) auto auto;
 	}
 }

@@ -1,26 +1,36 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { VscPlayCircle } from 'react-icons/vsc'
-
-const youtubePattern =
-	/^https:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)[A-Za-z0-9_-]{6,}/
+import { YOUTUBE_URL_PATTERN } from '@/lib/youtube'
 
 export default defineType({
 	name: 'video-library',
 	title: 'Video library',
 	type: 'object',
 	icon: VscPlayCircle,
+	groups: [
+		{ name: 'content', default: true },
+		{ name: 'options' },
+	],
 	fields: [
-		defineField({ name: 'pretitle', type: 'string' }),
+		defineField({
+			name: 'options',
+			title: 'Module options',
+			type: 'module-options',
+			group: 'options',
+		}),
+		defineField({ name: 'pretitle', type: 'string', group: 'content' }),
 		defineField({
 			name: 'title',
 			type: 'string',
 			validation: (Rule) => Rule.required(),
+			group: 'content',
 		}),
-		defineField({ name: 'description', type: 'text', rows: 3 }),
+		defineField({ name: 'description', type: 'text', rows: 3, group: 'content' }),
 		defineField({
 			name: 'videos',
 			type: 'array',
-			validation: (Rule) => Rule.required().min(1).max(6),
+			validation: (Rule) => Rule.required().min(1).max(8),
+			group: 'content',
 			of: [
 				defineArrayMember({
 					name: 'video',
@@ -38,7 +48,7 @@ export default defineType({
 								Rule.required().custom(
 									(value) =>
 										!value ||
-										youtubePattern.test(value) ||
+										YOUTUBE_URL_PATTERN.test(value) ||
 										'Enter a full YouTube URL.',
 								),
 						}),

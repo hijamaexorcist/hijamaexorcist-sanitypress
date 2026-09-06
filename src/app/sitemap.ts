@@ -1,7 +1,7 @@
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
 import { DEFAULT_LANG } from '@/lib/i18n'
-import { BLOG_DIR } from '@/lib/env'
+import { BLOG_DIR, SHOP_DIR } from '@/lib/env'
 import type { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -31,6 +31,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 					$baseUrl
 					+ select(defined(language) && language != $defaultLang => language + '/', '')
 					+ '${BLOG_DIR}/'
+					+ metadata.slug.current
+				),
+				'lastModified': _updatedAt,
+				'priority': 0.4
+			},
+			'shop': *[_type == 'product' && metadata.noIndex != true]|order(title){
+				'url': (
+					$baseUrl
+					+ '${SHOP_DIR}/'
 					+ metadata.slug.current
 				),
 				'lastModified': _updatedAt,

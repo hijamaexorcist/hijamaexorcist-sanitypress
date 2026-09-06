@@ -16,7 +16,7 @@ export default function PricingList({
 	return (
 		<section className="section space-y-10 md:space-y-12" {...moduleProps(props)}>
 			{(pretitle || intro) && (
-				<header className="grid items-end gap-5 md:grid-cols-[minmax(0,0.72fr)_minmax(20rem,0.48fr)] md:gap-12">
+				<header className="grid items-end gap-5 lg:grid-cols-[minmax(0,0.72fr)_minmax(16rem,0.48fr)] lg:gap-12">
 					<div className="richtext max-w-2xl text-balance">
 						<Pretitle className="clinic-kicker">{pretitle}</Pretitle>
 						<PortableText value={intro} />
@@ -30,13 +30,11 @@ export default function PricingList({
 
 			<div
 				className={cn(
-					'no-scrollbar grid items-stretch gap-4 md:gap-5',
-					'max-md:full-bleed max-md:auto-cols-[min(20rem,84vw)] max-md:grid-flow-col max-md:overflow-x-auto max-md:px-4 max-md:pb-4',
+					'grid items-stretch gap-4 md:gap-5',
 					count <= 3
-						? 'md:grid-cols-[repeat(var(--col,1),minmax(0,1fr))]'
-						: 'md:grid-cols-2 xl:grid-cols-4',
+						? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'
+						: 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4',
 				)}
-				style={{ '--col': count } as React.CSSProperties}
 			>
 				{tiers?.map(
 					(tier, index) =>
@@ -44,35 +42,35 @@ export default function PricingList({
 							<article
 								className={cn(
 									'clinic-shell h-full p-1.5',
-									index === 1 && 'md:-translate-y-3',
+									index === 1 && 'xl:-translate-y-3',
 								)}
 								key={tier._id}
 							>
 								<div
 									className={cn(
-										'clinic-core flex h-full min-h-[31rem] flex-col overflow-hidden p-6 md:p-7',
+										'clinic-core flex h-full min-h-0 flex-col overflow-hidden p-5 sm:p-6 md:p-7',
 										index === 1 && 'bg-clinic-sage/35',
 									)}
 								>
 									<div className="flex items-center justify-between gap-4 border-b border-ink/8 pb-5">
-										<span className="font-serif text-4xl leading-none text-clinic-clay/45">
+										<span className="font-serif text-3xl leading-none text-clinic-clay/45 sm:text-4xl">
 											{String(index + 1).padStart(2, '0')}
 										</span>
 										{tier.highlight && (
-											<span className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink/60">
+											<span className="max-w-[min(100%,11rem)] rounded-full bg-ink/5 px-3 py-1 text-center text-xs font-semibold text-balance text-ink/60">
 												{tier.highlight}
 											</span>
 										)}
 									</div>
 
-									<h3 className="mt-7 font-serif text-3xl leading-[1.02] tracking-[-0.035em]">
+									<h3 className="mt-7 font-serif text-[1.65rem] leading-[1.08] tracking-[-0.035em] sm:text-3xl sm:leading-[1.02]">
 										{tier.title}
 									</h3>
 
 									{tier.price?.base !== undefined && (
 										<div className="mt-5 flex flex-wrap items-end gap-x-2 border-b border-ink/8 pb-6">
 											{!isNaN(tier.price.base) && (
-												<b className="font-serif text-5xl leading-none font-normal tracking-[-0.05em]">
+												<b className="font-serif text-4xl leading-none font-normal tracking-[-0.05em] sm:text-5xl">
 													{formatPrice(tier.price.base)}
 												</b>
 											)}
