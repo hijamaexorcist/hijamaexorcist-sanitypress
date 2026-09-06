@@ -71,7 +71,7 @@ const linkGroups: Array<{
 			},
 			{
 				label: 'GitHub',
-				url: 'https://github.com/hijamaexorcist/sanitypress',
+				url: 'https://github.com/hijamaexorcist/hijamaexorcist',
 			},
 		],
 	},
