@@ -50,7 +50,7 @@ export async function GET() {
 		copyright,
 		favicon: process.env.NEXT_PUBLIC_BASE_URL + '/favicon.ico',
 		language: DEFAULT_LANG,
-		generator: 'https://sanitypress.dev',
+		generator: 'https://hijamaexorcist.com',
 	})
 
 	posts.map((post) => {

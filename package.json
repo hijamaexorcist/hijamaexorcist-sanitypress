@@ -1,8 +1,8 @@
 {
-	"name": "sanitypress",
+	"name": "hijamaexorcist",
 	"version": "7.2.4",
-	"description": "An impressive Sanity.io starter template with Next.js 16 and Tailwind 4",
-	"author": "nuotsu <mitchell@nuotsu.dev> (https://nuotsu.dev)",
+	"description": "Hijama Exorcist clinic website — Next.js and Sanity",
+	"author": "Hijama Exorcist <hello@hijamaexorcist.com> (https://hijamaexorcist.com)",
 	"license": "ISC",
 	"scripts": {
 		"dev": "next dev --webpack",

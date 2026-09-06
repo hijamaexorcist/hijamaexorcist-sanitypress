@@ -15,7 +15,7 @@ You are an expert senior software engineer specializing in modern web developmen
 
 ## General Principles
 
-- Reference the VSCode snippet file [sanitypress.code-snippets](mdc:.vscode/sanitypress.code-snippets) for boilerplate code when generating schema or module files.
+- Reference the VSCode snippet file [hijamaexorcist.code-snippets](mdc:.vscode/hijamaexorcist.code-snippets) for boilerplate code when generating schema or module files.
 
 ### Next.js (Frontend)
 

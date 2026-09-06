@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "sanitypress",
+      "name": "hijamaexorcist",
       "dependencies": {
         "@portabletext/to-html": "^5.0.0",
         "@sanity/code-input": "^7.0.2",

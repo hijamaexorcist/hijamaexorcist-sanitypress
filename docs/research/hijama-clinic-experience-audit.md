@@ -150,9 +150,9 @@ The active homepage is intentionally short: one clinic-led hero, a three-part vi
 - Verified one main landmark, one H1, labelled controls, image alternatives, and no horizontal overflow at desktop and 390px mobile widths across Home, About, Booking, Contact, Ruqyah, Journal, and 404.
 - Moved the three existing articles back to drafts because they contain unreviewed health, fertility, postpartum mental-health, detoxification, and outcome claims. The journal now presents a clear review-pending state and is removed from primary navigation.
 
-### SanityPress component inventory
+### Clinic CMS component inventory
 
-The local project contains all 24 modules in upstream Sanitypress at commit `fbc2f0d` (2026-05-30), plus five clinic-specific modules, for 29 total. Every schema module has a public renderer.
+The local project contains all 24 modules from the original starter template at commit `fbc2f0d` (2026-05-30), plus five clinic-specific modules, for 29 total. Every schema module has a public renderer.
 
 Recommended for this project: Hero, Hero Split, restrained Hero SaaS, Richtext, Accordion list, Card list, Flag list, Step list, Blog list/frontpage, Contact form, Appointment form, Care journey, Care standards, and Text highlight. Pricing and testimonials should be used only after facts and consent are verified. Logo/stat/reputation modules need real evidence. Custom HTML, dense SaaS compositions, and decorative shader-heavy patterns should generally be avoided.
 

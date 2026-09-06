@@ -1,4 +1,4 @@
-# Hijama Exorcist · Sanitypress
+# Hijama Exorcist
 
 Domain glossary for architecture and design work.
 
