@@ -282,8 +282,8 @@ export default function CatalogGrid({
 						className="border-ink/12 bg-canvas text-ink focus:border-accent focus:ring-accent/20 rounded-full border py-2.5 pr-9 pl-4 font-semibold shadow-sm outline-none focus:ring-2"
 					>
 						<option value="featured">Featured</option>
-						<option value="name-asc">Name: A–Z</option>
-						<option value="name-desc">Name: Z–A</option>
+						<option value="name-asc">Name: Aâ€“Z</option>
+						<option value="name-desc">Name: Zâ€“A</option>
 					</select>
 				</label>
 			</div>
