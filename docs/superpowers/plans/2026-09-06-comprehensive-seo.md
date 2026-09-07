@@ -61,6 +61,70 @@
 
 ---
 
+### Task 0: Repair the Pre-existing Verification Baseline
+
+**Files:**
+- Modify: `src/sanity/lib/queries.ts`
+- Modify: `eslint.config.mjs`
+
+**Interfaces:**
+- Keeps `getSite(): Promise<Sanity.Site>` unchanged.
+- Adds Node/web globals only for `scripts/**/*.mjs`; browser and application lint scopes remain unchanged.
+
+- [ ] **Step 1: Reproduce the baseline failures**
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+Expected before the fix: TypeScript rejects the `next` property passed to `fetchSanityLive()` in `getSite()`, and ESLint reports undefined `process`, `fetch`, and `console` globals in `scripts/sync-resend-templates.mjs`.
+
+- [ ] **Step 2: Remove the unsupported live-query option**
+
+`fetchSanityLive()` accepts `Parameters<typeof sanityFetch>[0]`; with the installed `next-sanity` version that input does not accept the old `next: { revalidate: 30 }` option. Remove only that option from `getSite()`:
+
+```ts
+const site = await fetchSanityLive<Sanity.Site>({
+	query: groq`...`,
+})
+```
+
+Keep the query and missing-site error behavior unchanged.
+
+- [ ] **Step 3: Scope script globals in the flat ESLint config**
+
+Add this config object after the global ignore object and before the Sanity preset:
+
+```ts
+{
+	files: ['scripts/**/*.mjs'],
+	languageOptions: {
+		globals: {
+			console: 'readonly',
+			fetch: 'readonly',
+			process: 'readonly',
+		},
+	},
+},
+```
+
+- [ ] **Step 4: Verify the repaired baseline**
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+Expected: both commands exit zero. The two existing `typescript/no-empty-function` warnings in `src/lib/overlay-scrollbars.ts` may remain because they do not fail lint.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/sanity/lib/queries.ts eslint.config.mjs docs/superpowers/plans/2026-09-06-comprehensive-seo.md
+git commit -m "fix: restore clean verification baseline"
+```
+
 ### Task 1: Canonical Origin and Test Harness
 
 **Files:**

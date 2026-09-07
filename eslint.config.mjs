@@ -12,5 +12,15 @@ export default [
 			'next-env.d.ts',
 		],
 	},
+	{
+		files: ['scripts/**/*.mjs'],
+		languageOptions: {
+			globals: {
+				console: 'readonly',
+				fetch: 'readonly',
+				process: 'readonly',
+			},
+		},
+	},
 	...sanityStudio,
 ]

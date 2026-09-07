@@ -178,7 +178,6 @@ export async function getSite() {
 				'ogimage': ogimage.asset->url
 			}
 		`,
-		next: { revalidate: 30 },
 	})
 
 	if (!site) throw new Error(errors.missingSiteSettings)
