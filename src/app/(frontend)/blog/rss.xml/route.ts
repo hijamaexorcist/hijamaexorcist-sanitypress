@@ -6,6 +6,7 @@ import { Feed } from 'feed'
 import { escapeHTML, toHTML } from '@portabletext/to-html'
 import { urlFor } from '@/sanity/lib/image'
 import { DEFAULT_LANG } from '@/lib/i18n'
+import { absoluteUrl } from '@/lib/seo/siteUrl'
 
 export async function GET() {
 	const { blog, posts, copyright } = await fetchSanityLive<{
@@ -20,7 +21,10 @@ export async function GET() {
 				metadata,
 				'image': metadata.image.asset->url,
 			},
-			'posts': *[_type == 'blog.post']{
+			'posts': *[
+				_type == 'blog.post' &&
+				metadata.noIndex != true
+			]|order(publishDate desc){
 				_type,
 				body,
 				publishDate,
@@ -48,7 +52,7 @@ export async function GET() {
 		link: url,
 		id: url,
 		copyright,
-		favicon: process.env.NEXT_PUBLIC_BASE_URL + '/favicon.ico',
+		favicon: absoluteUrl('/favicon.ico'),
 		language: DEFAULT_LANG,
 		generator: 'https://hijamaexorcist.com',
 	})
@@ -90,6 +94,8 @@ export async function GET() {
 	return new Response(feed.atom1(), {
 		headers: {
 			'Content-Type': 'application/atom+xml',
+			'Cache-Control':
+				'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
 		},
 	})
 }
