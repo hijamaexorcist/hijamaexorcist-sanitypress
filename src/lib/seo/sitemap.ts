@@ -1,4 +1,4 @@
-import { absoluteUrl } from './siteUrl'
+import { PRODUCTION_BASE_URL, absoluteUrl } from './siteUrl'
 import type { MetadataRoute } from 'next'
 
 export type SitemapDocument = {
@@ -8,7 +8,7 @@ export type SitemapDocument = {
 	noIndex?: boolean
 }
 
-const invalidSlug = /(^\/|\/$|\/\/|\.\.|[?#])/
+const invalidSlug = /(^\/|\/$|\/\/|\.\.|[\\?#])/
 
 export function buildSitemapEntries(
 	documents: SitemapDocument[],
@@ -28,10 +28,13 @@ export function buildSitemapEntries(
 				: _type === 'blog.post'
 					? `/blog/${slug}`
 					: `/shop/${slug}`
+		const url = absoluteUrl(path)
+
+		if (new URL(url).origin !== PRODUCTION_BASE_URL) return []
 
 		return [
 			{
-				url: absoluteUrl(path),
+				url,
 				lastModified: document.updatedAt,
 				priority: _type === 'page' ? (slug === 'index' ? 1 : 0.5) : 0.4,
 			},

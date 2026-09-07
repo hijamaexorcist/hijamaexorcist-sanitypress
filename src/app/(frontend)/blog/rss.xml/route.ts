@@ -6,7 +6,7 @@ import { Feed } from 'feed'
 import { escapeHTML, toHTML } from '@portabletext/to-html'
 import { urlFor } from '@/sanity/lib/image'
 import { DEFAULT_LANG } from '@/lib/i18n'
-import { absoluteUrl } from '@/lib/seo/siteUrl'
+import { PRODUCTION_BASE_URL, absoluteUrl } from '@/lib/seo/siteUrl'
 
 export async function GET() {
 	const { blog, posts, copyright } = await fetchSanityLive<{
@@ -54,7 +54,7 @@ export async function GET() {
 		copyright,
 		favicon: absoluteUrl('/favicon.ico'),
 		language: DEFAULT_LANG,
-		generator: 'https://hijamaexorcist.com',
+		generator: PRODUCTION_BASE_URL,
 	})
 
 	posts.map((post) => {
