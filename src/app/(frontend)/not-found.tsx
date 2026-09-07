@@ -2,6 +2,7 @@ import Modules from '@/ui/modules'
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
 import { MODULES_QUERY } from '@/sanity/lib/queries'
+import type { Metadata } from 'next'
 
 export default async function NotFound() {
 	const page = await get404()
@@ -9,8 +10,13 @@ export default async function NotFound() {
 	return <Modules modules={page?.modules} />
 }
 
-export async function generateMetadata() {
-	return (await get404())?.metadata
+export async function generateMetadata(): Promise<Metadata> {
+	const page = await get404()
+	return {
+		title: page?.metadata?.title || 'Page not found',
+		description: page?.metadata?.description,
+		robots: { index: false, follow: false },
+	}
 }
 
 async function get404() {
