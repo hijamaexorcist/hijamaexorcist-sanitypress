@@ -3,7 +3,7 @@ import Link from 'next/link'
 import resolveUrl from '@/lib/resolveUrl'
 import { formatCurrency } from '@/lib/utils'
 import { cn } from '@/lib/utils'
-import { stegaClean } from 'next-sanity'
+import { resolveProductAvailability } from '@/lib/productAvailability'
 
 const availabilityLabels: Record<string, string> = {
 	enquire: 'Enquire',
@@ -21,9 +21,7 @@ export default function ProductCard({
 		typeof product.price === 'number' && !Number.isNaN(product.price)
 			? formatCurrency(product.price).replace(/\.00$/, '')
 			: null
-	const availability =
-		stegaClean(product.availability) ||
-		(product.available === false ? 'unavailable' : 'enquire')
+	const availability = resolveProductAvailability(product)
 	const unavailable = availability === 'unavailable'
 
 	return (

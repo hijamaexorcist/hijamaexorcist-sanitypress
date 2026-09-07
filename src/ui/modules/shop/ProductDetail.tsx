@@ -1,4 +1,4 @@
-import { PortableText, stegaClean } from 'next-sanity'
+import { PortableText } from 'next-sanity'
 import Link from 'next/link'
 import {
 	PiChatCircleDots,
@@ -12,6 +12,7 @@ import CTAList from '@/ui/CTAList'
 import ProductGallery from './ProductGallery'
 import ProductCard from './ProductCard'
 import ProductActionBar from './ProductActionBar'
+import { resolveProductAvailability } from '@/lib/productAvailability'
 
 const availabilityLabels: Record<string, string> = {
 	enquire: 'Enquire for availability',
@@ -32,9 +33,7 @@ export default function ProductDetail({
 		typeof product.price === 'number' && !Number.isNaN(product.price)
 			? formatCurrency(product.price).replace(/\.00$/, '')
 			: null
-	const availability =
-		stegaClean(product.availability) ||
-		(product.available === false ? 'unavailable' : 'enquire')
+	const availability = resolveProductAvailability(product)
 	const gallery =
 		product.gallery?.filter((image) => image?.asset)?.length
 			? product.gallery

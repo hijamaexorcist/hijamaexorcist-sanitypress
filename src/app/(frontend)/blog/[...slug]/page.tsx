@@ -68,8 +68,8 @@ async function getPost(params: Params) {
 				style,
 				'text': pt::text(@)
 			},
-			categories[]->{ title },
-			authors[]->{ name },
+			categories[]->,
+			authors[]->,
 			metadata {
 				...,
 				'ogimage': image.asset->url + '?w=1200'

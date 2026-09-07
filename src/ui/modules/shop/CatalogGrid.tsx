@@ -9,6 +9,7 @@ import {
 	PiX,
 } from 'react-icons/pi'
 import { cn } from '@/lib/utils'
+import { resolveProductAvailability } from '@/lib/productAvailability'
 import ProductCard from './ProductCard'
 
 const availabilityLabels: Record<string, string> = {
@@ -162,12 +163,9 @@ export default function CatalogGrid({
 				.map(([value, label]) => ({
 					value,
 					label,
-					count: products.filter((product) => {
-						const status =
-							stegaClean(product.availability) ||
-							(product.available === false ? 'unavailable' : 'enquire')
-						return status === value
-					}).length,
+					count: products.filter(
+						(product) => resolveProductAvailability(product) === value,
+					).length,
 				}))
 				.filter((item) => item.count > 0),
 		[products],
@@ -178,9 +176,7 @@ export default function CatalogGrid({
 			products
 				.filter((item) => {
 					const cleanTags = item.tags?.map((value) => stegaClean(value)) || []
-					const status =
-						stegaClean(item.availability) ||
-						(item.available === false ? 'unavailable' : 'enquire')
+					const status = resolveProductAvailability(item)
 					return (
 						(category === 'all' ||
 							stegaClean(item.category?.slug?.current) === category) &&
@@ -286,8 +282,8 @@ export default function CatalogGrid({
 						className="border-ink/12 bg-canvas text-ink focus:border-accent focus:ring-accent/20 rounded-full border py-2.5 pr-9 pl-4 font-semibold shadow-sm outline-none focus:ring-2"
 					>
 						<option value="featured">Featured</option>
-						<option value="name-asc">Name: Aâ€“Z</option>
-						<option value="name-desc">Name: Zâ€“A</option>
+						<option value="name-asc">Name: A–Z</option>
+						<option value="name-desc">Name: Z–A</option>
 					</select>
 				</label>
 			</div>

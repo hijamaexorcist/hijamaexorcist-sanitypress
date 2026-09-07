@@ -1,4 +1,5 @@
 import { DEFAULT_LANG } from '@/lib/i18n'
+import { resolveProductAvailability } from '@/lib/productAvailability'
 import { PRODUCTION_BASE_URL } from '@/lib/seo/siteUrl'
 
 type JsonLdValue = string | number | boolean | null | JsonLdNode | JsonLdValue[]
@@ -33,6 +34,7 @@ type ProductPageJsonLdInput = PageJsonLdInput & {
 	excerpt?: string
 	price?: number
 	availability?: Sanity.Product['availability']
+	available?: boolean
 	imageUrl?: string
 	galleryImageUrls?: string[]
 	category?: { title?: string }
@@ -214,6 +216,7 @@ export function productPageJsonLd(
 	]
 	const hasPrice =
 		typeof product.price === 'number' && Number.isFinite(product.price)
+	const availability = resolveProductAvailability(product)
 	const webpage = withoutContext(webPageJsonLd(product))
 	const breadcrumbs = withoutContext(
 		breadcrumbJsonLd([
@@ -247,9 +250,8 @@ export function productPageJsonLd(
 						url,
 						price: product.price,
 						priceCurrency: 'USD',
-						...(product.availability !== 'enquire' && {
-							availability:
-								availabilityUrls[product.availability || 'in-stock'],
+						...(availability !== 'enquire' && {
+							availability: availabilityUrls[availability],
 						}),
 						seller: { '@id': ids.organization },
 					},

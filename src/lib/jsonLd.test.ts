@@ -157,6 +157,42 @@ describe('connected JSON-LD', () => {
 		expect(product?.offers).not.toHaveProperty('availability')
 	})
 
+	it.each([
+		['legacy true', true],
+		['default', undefined],
+	] as const)(
+		'treats missing availability with %s as enquire',
+		(_case, available) => {
+			const graph = productPageJsonLd({
+				_type: 'product',
+				title: 'Legacy cupping kit',
+				price: 45,
+				available,
+				...baseDocument,
+			})
+			const product = graph['@graph'].find(
+				(node) => node['@type'] === 'Product',
+			)
+
+			expect(product?.offers).not.toHaveProperty('availability')
+		},
+	)
+
+	it('maps missing availability with legacy false to unavailable', () => {
+		const graph = productPageJsonLd({
+			_type: 'product',
+			title: 'Unavailable legacy kit',
+			price: 45,
+			available: false,
+			...baseDocument,
+		})
+		const product = graph['@graph'].find((node) => node['@type'] === 'Product')
+
+		expect(product?.offers).toMatchObject({
+			availability: 'https://schema.org/OutOfStock',
+		})
+	})
+
 	it('does not fabricate eligibility fields for an enquire-only product', () => {
 		const graph = productPageJsonLd({
 			_type: 'product',
