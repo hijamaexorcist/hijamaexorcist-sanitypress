@@ -1,6 +1,5 @@
 'use client'
-import { Suspense, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import moduleProps from '@/lib/moduleProps'
 import { getRecaptchaToken } from '@/lib/recaptcha'
 import CTAList from '@/ui/CTAList'
@@ -25,6 +24,13 @@ const socialIcons = {
 	facebook: Facebook,
 	tiktok: MessageSquare, // Using MessageSquare as placeholder for TikTok
 }
+
+const fallbackReasons = [
+	'General enquiry',
+	'Booking question',
+	'Preparation question',
+	'Shop enquiry',
+]
 
 interface ContactFormModuleProps {
 	title?: string
@@ -56,15 +62,7 @@ interface ContactFormModuleProps {
 	_key?: string
 }
 
-export default function ContactFormModule(props: ContactFormModuleProps) {
-	return (
-		<Suspense fallback={null}>
-			<ContactFormModuleInner {...props} />
-		</Suspense>
-	)
-}
-
-function ContactFormModuleInner({
+export default function ContactFormModule({
 	title = 'Contact the clinic',
 	description = 'Have a practical question before booking? Send a private enquiry and the clinic will respond as soon as possible.',
 	ctas,
@@ -77,22 +75,9 @@ function ContactFormModuleInner({
 	_key,
 	...props
 }: ContactFormModuleProps) {
-	const fallbackReasons = [
-		'General enquiry',
-		'Booking question',
-		'Preparation question',
-		'Shop enquiry',
-	]
-	const searchParams = useSearchParams()
-	const productPrefill = searchParams.get('product')?.trim() || ''
-	const reasonPrefill = searchParams.get('reason')?.trim() || ''
-	const reasons = Array.from(
-		new Set([
-			...(reasonOptions?.length ? reasonOptions : fallbackReasons),
-			...(reasonPrefill ? [reasonPrefill] : []),
-			...(productPrefill ? ['Shop enquiry'] : []),
-		]),
-	)
+	const baseReasons = reasonOptions?.length ? reasonOptions : fallbackReasons
+	const [prefillReasons, setPrefillReasons] = useState<string[]>([])
+	const reasons = Array.from(new Set([...baseReasons, ...prefillReasons]))
 	const messageCopy = {
 		success:
 			'Your message has been sent. The clinic will get back to you soon.',
@@ -106,19 +91,26 @@ function ContactFormModuleInner({
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
-		message: productPrefill
-			? `I am enquiring about: ${productPrefill}`
-			: '',
-		reason: reasonPrefill || (productPrefill ? 'Shop enquiry' : reasons[0]),
+		message: '',
+		reason: baseReasons[0],
 		consent: false,
 		website: '',
 		gCaptchaResponse: '',
 	})
 
 	useEffect(() => {
+		const searchParams = new URLSearchParams(window.location.search)
 		const product = searchParams.get('product')?.trim()
 		const reason = searchParams.get('reason')?.trim()
 		if (!product && !reason) return
+
+		const queryReasons = [
+			...(reason ? [reason] : []),
+			...(product ? ['Shop enquiry'] : []),
+		]
+		setPrefillReasons((current) =>
+			Array.from(new Set([...current, ...queryReasons])),
+		)
 		setFormData((current) => ({
 			...current,
 			message:
@@ -127,7 +119,7 @@ function ContactFormModuleInner({
 					: current.message,
 			reason: reason || (product ? 'Shop enquiry' : current.reason),
 		}))
-	}, [searchParams])
+	}, [])
 
 	const [status, setStatus] = useState<
 		'idle' | 'submitting' | 'success' | 'error'
@@ -136,9 +128,7 @@ function ContactFormModuleInner({
 	const [confirmationSent, setConfirmationSent] = useState<boolean | null>(null)
 	const [errorMessage, setErrorMessage] = useState('')
 	const formEndpoint =
-		!endpoint || endpoint.startsWith('http')
-			? '/api/forms/contact'
-			: endpoint
+		!endpoint || endpoint.startsWith('http') ? '/api/forms/contact' : endpoint
 
 	const handleChange = (
 		e: React.ChangeEvent<
