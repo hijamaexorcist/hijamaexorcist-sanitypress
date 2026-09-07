@@ -38,6 +38,7 @@ export default defineType({
 				defineField({
 					name: 'alt',
 					type: 'string',
+					validation: (Rule) => Rule.required(),
 				}),
 			],
 			description: 'Primary image used on cards. Prefer also filling the gallery.',

@@ -17,6 +17,7 @@ export default defineArrayMember({
 			name: 'alt',
 			type: 'string',
 			fieldset: 'attributes',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'loading',

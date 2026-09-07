@@ -80,6 +80,12 @@ export default defineType({
 					type: 'string',
 				}),
 				defineField({
+					name: 'region',
+					description:
+						'State, province, or region abbreviation for structured data (e.g. NJ)',
+					type: 'string',
+				}),
+				defineField({
 					name: 'serviceArea',
 					description: 'e.g. Home visits across Brooklyn',
 					type: 'string',

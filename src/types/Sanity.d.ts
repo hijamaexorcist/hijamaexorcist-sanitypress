@@ -19,6 +19,7 @@ declare global {
 				whatsappMessage?: string
 				email?: string
 				city?: string
+				region?: string
 				serviceArea?: string
 				countryCode?: string
 				seoDescription?: string
