@@ -1,8 +1,9 @@
+import { BASE_URL } from '@/lib/env'
 import { getSite } from '@/sanity/lib/queries'
 import { ImageResponse } from 'next/og'
 import type { NextRequest } from 'next/server'
 
-const domain = process.env.NEXT_PUBLIC_BASE_URL?.replace(/https?:\/\//, '')
+const domain = new URL(BASE_URL).hostname
 
 const color = '#13141b'
 
@@ -65,7 +66,7 @@ export async function GET(request: NextRequest) {
 						color: 'transparent',
 					}}
 				>
-					{domain || site.title}
+					{domain}
 				</span>
 			</div>
 		</div>,

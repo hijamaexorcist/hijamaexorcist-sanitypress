@@ -1,4 +1,4 @@
-import { BLOG_DIR } from '@/lib/env'
+import { BASE_URL, BLOG_DIR } from '@/lib/env'
 import type { SearchScope } from './store'
 
 export default function SearchGoogle({
@@ -12,7 +12,7 @@ export default function SearchGoogle({
 }) {
 	const href = [
 		`https://www.google.com/search?q=${query} `,
-		`site:${process.env.NEXT_PUBLIC_BASE_URL}`,
+		`site:${BASE_URL}`,
 		scope === 'path' && path
 			? `/${path.replace(/\/?\*$/, '')}`
 			: scope === 'blog posts'

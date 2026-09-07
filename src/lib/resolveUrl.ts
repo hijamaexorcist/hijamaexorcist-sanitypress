@@ -1,4 +1,4 @@
-import { BLOG_DIR, SHOP_DIR } from './env'
+import { BASE_URL, BLOG_DIR, SHOP_DIR } from './env'
 import { DEFAULT_LANG } from './i18n'
 import { stegaClean } from 'next-sanity'
 
@@ -25,7 +25,7 @@ export default function resolveUrl(
 	const path = slug === 'index' ? null : slug
 
 	return [
-		base && process.env.NEXT_PUBLIC_BASE_URL,
+		base && BASE_URL,
 		lang,
 		segment,
 		path,

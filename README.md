@@ -19,7 +19,7 @@ npm run dev
 Copy `.env.example` to `.env.local` and fill in the values.
 
 ```ini
-NEXT_PUBLIC_BASE_URL="" # https://hijamaexorcist.com
+NEXT_PUBLIC_BASE_URL="" # https://www.hijamaexorcist.com
 NEXT_PUBLIC_SANITY_PROJECT_ID="" # rgteya6w
 NEXT_PUBLIC_SANITY_DATASET="" # production
 SANITY_API_READ_TOKEN="" # Viewer token from https://sanity.io/manage

@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { BASE_URL } from '@/lib/env'
+import { absoluteUrl } from '@/lib/seo/siteUrl'
 import { Box, Button, Flex, Popover, Spinner } from '@sanity/ui'
 import { VscEye, VscEyeClosed } from 'react-icons/vsc'
 
 export default function PreviewOG({ title }: { title?: string }) {
 	const [open, setOpen] = useState(false)
 
-	const url = `${BASE_URL}/api/og?title=${encodeURIComponent(title ?? '')}`
+	const url = absoluteUrl(`/api/og?title=${encodeURIComponent(title ?? '')}`)
 
 	return (
 		<Popover
