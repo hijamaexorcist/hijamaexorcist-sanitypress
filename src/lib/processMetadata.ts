@@ -1,7 +1,6 @@
 import resolveUrl from './resolveUrl'
 import { BASE_URL, BLOG_DIR, vercelPreview } from './env'
 import type { Metadata } from 'next'
-import { DEFAULT_LANG } from './i18n'
 import { getSite } from '@/sanity/lib/queries'
 
 type MetadataPage = Sanity.PageBase & {
@@ -17,7 +16,7 @@ export default async function processMetadata(
 	page: MetadataPage,
 ): Promise<Metadata> {
 	const site = await getSite()
-	const url = resolveUrl(page)
+	const url = resolveUrl(page, { language: page.language })
 	const {
 		title: metadataTitle,
 		description: metadataDescription,
@@ -41,14 +40,25 @@ export default async function processMetadata(
 	]
 	const preventIndexing = noIndex || vercelPreview
 	const languages = Object.fromEntries(
-		page.translations
-			?.filter((translation) => !!translation?.language && !!translation?.slug)
-			.map(({ language, slug }) => [
-				language,
-				[BASE_URL, language !== DEFAULT_LANG && language, slug]
-					.filter(Boolean)
-					.join('/'),
-			]) || [],
+		page.translations?.flatMap(({ language, slug }) => {
+			if (!language || !slug) return []
+
+			return [
+				[
+					language,
+					resolveUrl(
+						{
+							...page,
+							metadata: {
+								...page.metadata,
+								slug: { current: slug },
+							},
+						},
+						{ language },
+					),
+				] as const,
+			]
+		}) || [],
 	)
 	const hasLanguages = Object.keys(languages).length > 0
 	const hasRss =

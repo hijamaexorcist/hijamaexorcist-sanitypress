@@ -106,6 +106,22 @@ describe('processMetadata', () => {
 		expect(metadata.robots).toMatchObject({ index: true, follow: true })
 	})
 
+	it('uses the document language in a translated blog canonical', async () => {
+		const metadata = await processMetadata(
+			createDocument({
+				_type: 'blog.post',
+				language: 'fr',
+			}),
+		)
+
+		expect(metadata.alternates?.canonical).toBe(
+			'https://www.hijamaexorcist.com/fr/blog/safe-cupping',
+		)
+		expect(metadata.openGraph).toMatchObject({
+			url: 'https://www.hijamaexorcist.com/fr/blog/safe-cupping',
+		})
+	})
+
 	it.each([
 		['metadata title', createDocument(), 'Safe cupping metadata'],
 		[
@@ -183,6 +199,19 @@ describe('processMetadata', () => {
 
 		expect(metadata.alternates?.languages).toEqual({
 			fr: 'https://www.hijamaexorcist.com/fr/soins-securises',
+		})
+	})
+
+	it('preserves the blog route in translated alternates', async () => {
+		const metadata = await processMetadata(
+			createDocument({
+				_type: 'blog.post',
+				translations: [{ language: 'fr', slug: 'ventouses-securisees' }],
+			}),
+		)
+
+		expect(metadata.alternates?.languages).toEqual({
+			fr: 'https://www.hijamaexorcist.com/fr/blog/ventouses-securisees',
 		})
 	})
 
