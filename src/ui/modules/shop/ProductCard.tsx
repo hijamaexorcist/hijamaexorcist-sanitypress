@@ -11,11 +11,7 @@ const availabilityLabels: Record<string, string> = {
 	unavailable: 'Unavailable',
 }
 
-export default function ProductCard({
-	product,
-}: {
-	product: Sanity.Product
-}) {
+export default function ProductCard({ product }: { product: Sanity.Product }) {
 	const href = resolveUrl(product, { base: false })
 	const price =
 		typeof product.price === 'number' && !Number.isNaN(product.price)
@@ -31,6 +27,7 @@ export default function ProductCard({
 					className="aspect-[4/3] size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.025]"
 					image={product.image}
 					width={800}
+					sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 25vw"
 					alt={product.image?.alt || product.title}
 				/>
 				<div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
@@ -67,12 +64,7 @@ export default function ProductCard({
 					</p>
 				)}
 				<div className="mt-auto flex items-end justify-between gap-3 pt-5">
-					<p
-						className={cn(
-							'text-sm font-semibold',
-							!price && 'text-ink/55',
-						)}
-					>
+					<p className={cn('text-sm font-semibold', !price && 'text-ink/55')}>
 						{price || product.priceNote || 'Enquire for availability'}
 					</p>
 					{!price && (

@@ -20,6 +20,7 @@ export default function Image({
 				className="bg-accent/3 mx-auto max-h-svh w-auto text-[0px]"
 				image={value}
 				width={1500}
+				sizes="(max-width: 768px) 100vw, 768px"
 			/>
 
 			{value.caption && (

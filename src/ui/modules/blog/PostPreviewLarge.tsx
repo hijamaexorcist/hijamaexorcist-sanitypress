@@ -15,6 +15,7 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 					className="aspect-video w-full object-cover transition-all group-hover:scale-105 group-hover:brightness-110"
 					image={post.metadata.image}
 					width={800}
+					sizes="(max-width: 1023px) 100vw, 50vw"
 					alt={post.metadata.title}
 					loading="eager"
 				/>

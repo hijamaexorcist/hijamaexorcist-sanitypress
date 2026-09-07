@@ -11,9 +11,24 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import '@/styles/app.css'
 import Script from 'next/script'
+import { DM_Serif_Display, Instrument_Sans } from 'next/font/google'
 import LanguageSync from '@/ui/LanguageSync'
 import OverlayScrollbars from '@/ui/OverlayScrollbars'
 import type { Viewport } from 'next'
+
+const instrumentSans = Instrument_Sans({
+	subsets: ['latin'],
+	display: 'swap',
+	variable: '--font-instrument-sans',
+})
+
+const dmSerifDisplay = DM_Serif_Display({
+	subsets: ['latin'],
+	weight: '400',
+	style: ['normal', 'italic'],
+	display: 'swap',
+	variable: '--font-dm-serif-display',
+})
 
 export const viewport: Viewport = {
 	themeColor: '#101b17',
@@ -24,12 +39,13 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-
 	return (
 		<Root>
 			{/* <GoogleTagManager gtmId="" /> */}
-			<body className="bg-canvas text-ink antialiased" suppressHydrationWarning>
+			<body
+				className={`${instrumentSans.variable} ${dmSerifDisplay.variable} bg-canvas text-ink antialiased`}
+				suppressHydrationWarning
+			>
 				<Script
 					id="theme-preference"
 					strategy="beforeInteractive"
@@ -39,12 +55,6 @@ export default async function RootLayout({
 				/>
 				<LanguageSync />
 				<OverlayScrollbars />
-				{recaptchaSiteKey && (
-					<Script
-						src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
-						strategy="afterInteractive"
-					/>
-				)}
 				<ClinicJsonLd />
 				<NuqsAdapter>
 					<SkipToContent />

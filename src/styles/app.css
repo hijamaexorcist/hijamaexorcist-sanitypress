@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 @import 'tailwindcss';
 @import './fonts.css';
 
@@ -12,10 +11,13 @@
 	--color-clinic-stone: #6f786f;
 	--color-footer: #18352b;
 	--color-footer-ink: #f5f4ed;
-	--font-sans: 'Instrument Sans', ui-sans-serif, sans-serif;
-	--font-serif: 'DM Serif Display', ui-serif, serif;
 
 	--max-height-fold: calc(100svh - var(--header-height));
+}
+
+@theme inline {
+	--font-sans: var(--font-instrument-sans), ui-sans-serif, sans-serif;
+	--font-serif: var(--font-dm-serif-display), ui-serif, serif;
 }
 
 @custom-variant hover (&:hover);
@@ -42,7 +44,11 @@ html[data-theme='light'] {
 /* Overlay scrollbars (openislam): hide native gutters; thumbs are out of flow. */
 :root {
 	--scrollbar-thumb: color-mix(in oklab, var(--color-ink) 26%, transparent);
-	--scrollbar-thumb-hover: color-mix(in oklab, var(--color-ink) 44%, transparent);
+	--scrollbar-thumb-hover: color-mix(
+		in oklab,
+		var(--color-ink) 44%,
+		transparent
+	);
 }
 
 .oi-overlay-scroll-target {

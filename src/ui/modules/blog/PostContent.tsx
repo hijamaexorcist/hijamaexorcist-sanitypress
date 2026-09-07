@@ -56,6 +56,7 @@ export default function PostContent({
 								className="clinic-core aspect-video w-full object-cover"
 								image={post.metadata.image}
 								width={1400}
+								sizes="(max-width: 896px) 100vw, 896px"
 								alt={post.metadata.title}
 							/>
 						</figure>
