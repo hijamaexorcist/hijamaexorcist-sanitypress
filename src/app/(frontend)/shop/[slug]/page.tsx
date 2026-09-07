@@ -6,10 +6,13 @@ import { getClinicContact } from '@/lib/clinicContact'
 import { groq } from 'next-sanity'
 import { CTA_QUERY, IMAGE_QUERY } from '@/sanity/lib/queries'
 import ProductDetail from '@/ui/modules/shop/ProductDetail'
+import JsonLd from '@/ui/JsonLd'
+import { productPageJsonLd } from '@/lib/jsonLd'
 
 const PRODUCT_CARD_FIELDS = groq`
 	_id,
 	_type,
+	_updatedAt,
 	title,
 	excerpt,
 	price,
@@ -20,6 +23,7 @@ const PRODUCT_CARD_FIELDS = groq`
 	displayOrder,
 	tags,
 	image { ${IMAGE_QUERY} },
+	'imageUrl': image.asset->url,
 	category->{
 		_id,
 		title,
@@ -36,11 +40,14 @@ export default async function Page({ params }: Props) {
 	if (!product) notFound()
 
 	return (
-		<ProductDetail
-			product={product}
-			related={related}
-			whatsappNumber={contact.whatsapp}
-		/>
+		<>
+			<JsonLd data={productPageJsonLd(product)} />
+			<ProductDetail
+				product={product}
+				related={related}
+				whatsappNumber={contact.whatsapp}
+			/>
+		</>
 	)
 }
 
@@ -68,6 +75,7 @@ async function getProduct(params: Params) {
 			content,
 			ctas[]{ ${CTA_QUERY} },
 			gallery[]{ ${IMAGE_QUERY} },
+			'galleryImageUrls': gallery[].asset->url,
 			metadata {
 				...,
 				'ogimage': coalesce(image.asset->url, gallery[0].asset->url) + '?w=1200'

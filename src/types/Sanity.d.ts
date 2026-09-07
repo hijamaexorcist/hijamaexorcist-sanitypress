@@ -90,7 +90,9 @@ declare global {
 			title: string
 			excerpt?: string
 			image?: Image
+			imageUrl?: string
 			gallery?: Image[]
+			galleryImageUrls?: string[]
 			price?: number
 			priceNote?: string
 			content?: any

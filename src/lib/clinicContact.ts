@@ -1,7 +1,6 @@
 import { getSite } from '@/sanity/lib/queries'
 import { parseWhatsAppNumber, waLink } from '@/lib/utils'
-import { medicalBusinessJsonLd, toJsonLdScript } from '@/lib/jsonLd'
-import { BASE_URL } from '@/lib/env'
+import { siteGraphJsonLd, toJsonLdScript } from '@/lib/jsonLd'
 
 export type ClinicContact = {
 	title: string
@@ -39,7 +38,9 @@ function resolveWhatsApp(site: Sanity.Site) {
 		if (parsed) return parsed
 	}
 
-	return process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') || undefined
+	return (
+		process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') || undefined
+	)
 }
 
 /**
@@ -70,23 +71,7 @@ export async function getClinicContact(): Promise<ClinicContact> {
 }
 
 export function clinicJsonLdFromContact(contact: ClinicContact) {
-	return medicalBusinessJsonLd({
-		name: contact.title,
-		description: contact.seoDescription,
-		contact: {
-			phone: contact.phone,
-			whatsapp: contact.whatsapp,
-			whatsappMessage: contact.whatsappMessage,
-			email: contact.email,
-			city: contact.city,
-			serviceArea: contact.serviceArea,
-			countryCode: contact.countryCode,
-			seoDescription: contact.seoDescription,
-		},
-		url: BASE_URL,
-		image: contact.ogimage,
-		sameAs: contact.sameAs,
-	})
+	return siteGraphJsonLd(contact)
 }
 
 export function clinicJsonLdScript(contact: ClinicContact) {

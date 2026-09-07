@@ -1,14 +1,7 @@
-import { clinicJsonLdScript, getClinicContact } from '@/lib/clinicContact'
+import { clinicJsonLdFromContact, getClinicContact } from '@/lib/clinicContact'
+import JsonLd from '@/ui/JsonLd'
 
 export default async function ClinicJsonLd() {
 	const contact = await getClinicContact()
-	const json = clinicJsonLdScript(contact)
-	if (!json) return null
-
-	return (
-		<script
-			type="application/ld+json"
-			dangerouslySetInnerHTML={{ __html: json }}
-		/>
-	)
+	return <JsonLd data={clinicJsonLdFromContact(contact)} />
 }

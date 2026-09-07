@@ -11,11 +11,18 @@ import {
 } from '@/sanity/lib/queries'
 import { languages } from '@/lib/i18n'
 import errors from '@/lib/errors'
+import JsonLd from '@/ui/JsonLd'
+import { webPageJsonLd } from '@/lib/jsonLd'
 
 export default async function Page({ params }: Props) {
 	const page = await getPage(await params)
 	if (!page) notFound()
-	return <Modules modules={page.modules} page={page} />
+	return (
+		<>
+			<JsonLd data={webPageJsonLd(page)} />
+			<Modules modules={page.modules} page={page} />
+		</>
+	)
 }
 
 export async function generateMetadata({ params }: Props) {

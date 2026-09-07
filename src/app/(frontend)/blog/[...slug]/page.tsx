@@ -12,11 +12,18 @@ import {
 } from '@/sanity/lib/queries'
 import { languages, type Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
+import JsonLd from '@/ui/JsonLd'
+import { blogPostingJsonLd } from '@/lib/jsonLd'
 
 export default async function Page({ params }: Props) {
 	const post = await getPost(await params)
 	if (!post) notFound()
-	return <Modules modules={post.modules} post={post} />
+	return (
+		<>
+			<JsonLd data={blogPostingJsonLd(post)} />
+			<Modules modules={post.modules} post={post} />
+		</>
+	)
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -61,8 +68,8 @@ async function getPost(params: Params) {
 				style,
 				'text': pt::text(@)
 			},
-			categories[]->,
-			authors[]->,
+			categories[]->{ title },
+			authors[]->{ name },
 			metadata {
 				...,
 				'ogimage': image.asset->url + '?w=1200'
