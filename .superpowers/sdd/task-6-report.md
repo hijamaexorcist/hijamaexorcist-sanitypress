@@ -56,13 +56,14 @@ The tests cover:
 
 - two concurrent calls append one `script[data-recaptcha]` and resolve together;
 - a script load failure rejects;
+- a failed script is removed and a later call can retry;
 - an existing `window.grecaptcha` avoids script insertion.
 
 ### GREEN
 
 The same command after the minimal loader implementation: exit 0, 1 passed file, 3 passed tests.
 
-Fresh final focused run after the complete source change: exit 0, 1 passed file, 3 passed tests.
+The initial Task 6 final focused run was exit 0 with 3 passed tests; the review remediation below expands this suite to 4 tests.
 
 ## Files changed
 
@@ -80,13 +81,13 @@ Fresh final focused run after the complete source change: exit 0, 1 passed file,
 
 ## Verification
 
-- `npm test -- src/lib/recaptcha.test.ts`: exit 0; 3/3 tests passed.
+- `npm test -- src/lib/recaptcha.test.ts`: exit 0; 4/4 tests passed.
 - `npm run typecheck`: exit 0; no TypeScript diagnostics.
 - `npm run lint`: exit 0; 0 errors and 2 pre-existing warnings in `src/lib/overlay-scrollbars.ts` at lines 308 and 465. The overlay-scrollbar implementation was intentionally unchanged.
-- Focused Prettier checks identified and corrected formatting in the changed source and report.
+- Focused Prettier checks corrected Task 6 additions; review-requested restoration of pre-existing formatting is documented below.
 - `git diff --check`: exit 0.
 - Source assertions: 14/14 passed, covering no global reCAPTCHA URL, no Google Fonts CSS import, exact Next font variable mappings, encoded/async/data-marked lazy script loading, `getRecaptchaToken()` awaiting the loader, and all six exact `sizes` strings.
-- Eager-loading call-site scan: only `PostPreviewLarge.tsx` and the initial main image in `ProductGallery.tsx` contain `loading="eager"`; thumbnails and lightbox images remain lazy/default.
+- Eager-loading call-site scan: `PostPreviewLarge.tsx` explicitly requests eager loading; `ProductGallery.tsx` requests eager only for `safeIndex === 0` and lazy for subsequently selected main images. Thumbnails and lightbox images remain lazy/default.
 
 ### Build check
 
@@ -117,8 +118,38 @@ Based on the measured production network log, these changes are expected to remo
 
 - The implementation stays within the Task 6 source scope and leaves overlay scrollbars unchanged.
 - Font family, weight/style coverage, and display strategy match the brief, so no intentional typography redesign was introduced.
-- The on-demand script promise deduplicates concurrent form attempts and propagates load failures.
+- The on-demand script promise deduplicates concurrent form attempts, propagates load failures, removes failed scripts, and clears its cache so later attempts can retry.
 - No runtime after measurement is claimed; only the before baseline and deterministic after-source evidence are available.
 - Lighthouse values are single-run synthetic lab results and may vary; field INP was unavailable.
-- `src/ui/Img.tsx` currently derives loading from `image.loading` and discards the direct `loading` prop. The two requested eager call sites remain the only eager declarations, but their effective runtime priority still depends on that existing wrapper behavior. It was outside the Task 6 file list and was not changed.
+- `src/ui/Img.tsx` now honors an explicit `loading` prop before falling back to CMS `image.loading`, so the reviewed eager/lazy call-site decisions are effective.
 - The invalid UTF-8 byte in `CatalogGrid.tsx` remains the production-build blocker.
+
+## Important review remediation
+
+The Task 6 review findings were addressed in a follow-up:
+
+- `Instrument_Sans` now requests both `normal` and `italic` styles through `next/font/google`, preserving the original Google Fonts stylesheet coverage.
+- Shared `Img` now resolves loading as `loadingProp ?? image.loading`; explicit component intent wins, while CMS loading remains the fallback.
+- `PostPreviewLarge` remains explicitly eager. The product gallery's first main image is eager and every subsequently selected main image is explicitly lazy; thumbnail and lightbox loading behavior was not changed.
+- Failed reCAPTCHA scripts are removed from the document, the module-level promise is cleared, and a later call creates a fresh script and can resolve.
+- The overlay-scrollbar `color-mix()` formatting in `app.css` was restored exactly. Relative to the pre-Task-6 parent, that area has no diff.
+- Unrelated `ProductCard` function and price markup formatting was restored. Relative to the pre-Task-6 parent, its only change is the required exact `sizes` value.
+- A design-hook `broken-image` finding on the shared custom `Img` wrapper was reviewed as a false positive: the source URL is generated from the Sanity image value. The prescribed file-scoped ignore was recorded in `.impeccable/config.json`; no design behavior was suppressed or changed.
+
+### Follow-up RED/GREEN evidence
+
+Before the follow-up implementation, the combined focused run failed exactly two new regression tests:
+
+- reCAPTCHA retry: the failed script was still connected;
+- shared image loading: CMS eager loading incorrectly overrode an explicit lazy prop.
+
+After implementation:
+
+- `npm test -- src/lib/recaptcha.test.ts`: exit 0; 4/4 tests passed, including failed-load retry.
+- `npm test -- src/ui/Img.test.ts`: exit 0; 2/2 tests passed, covering explicit loading precedence and CMS fallback.
+- Combined focused run: exit 0; 6/6 tests passed.
+- `npm run typecheck`: exit 0 after correcting the test fixture's deliberate `Sanity.Image` cast.
+- `npm run lint`: exit 0 with the same two pre-existing overlay-scrollbar warnings and no errors.
+- `git diff --check`: exit 0.
+
+The production build is not claimed to pass. The separately tracked invalid UTF-8 byte in `CatalogGrid.tsx` remains unchanged and continues to block that check.

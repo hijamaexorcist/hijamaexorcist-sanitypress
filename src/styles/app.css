@@ -44,11 +44,7 @@ html[data-theme='light'] {
 /* Overlay scrollbars (openislam): hide native gutters; thumbs are out of flow. */
 :root {
 	--scrollbar-thumb: color-mix(in oklab, var(--color-ink) 26%, transparent);
-	--scrollbar-thumb-hover: color-mix(
-		in oklab,
-		var(--color-ink) 44%,
-		transparent
-	);
+	--scrollbar-thumb-hover: color-mix(in oklab, var(--color-ink) 44%, transparent);
 }
 
 .oi-overlay-scroll-target {

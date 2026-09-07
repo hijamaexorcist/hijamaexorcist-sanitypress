@@ -19,7 +19,11 @@ export const loadRecaptcha = (siteKey: string): Promise<void> => {
 		script.async = true
 		script.dataset.recaptcha = 'true'
 		script.onload = () => resolve()
-		script.onerror = () => reject(new Error('Failed to load reCAPTCHA'))
+		script.onerror = () => {
+			script.remove()
+			recaptchaPromise = undefined
+			reject(new Error('Failed to load reCAPTCHA'))
+		}
 		document.head.append(script)
 	})
 

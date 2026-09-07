@@ -18,6 +18,7 @@ import type { Viewport } from 'next'
 
 const instrumentSans = Instrument_Sans({
 	subsets: ['latin'],
+	style: ['normal', 'italic'],
 	display: 'swap',
 	variable: '--font-instrument-sans',
 })

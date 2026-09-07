@@ -11,7 +11,11 @@ const availabilityLabels: Record<string, string> = {
 	unavailable: 'Unavailable',
 }
 
-export default function ProductCard({ product }: { product: Sanity.Product }) {
+export default function ProductCard({
+	product,
+}: {
+	product: Sanity.Product
+}) {
 	const href = resolveUrl(product, { base: false })
 	const price =
 		typeof product.price === 'number' && !Number.isNaN(product.price)
@@ -64,7 +68,12 @@ export default function ProductCard({ product }: { product: Sanity.Product }) {
 					</p>
 				)}
 				<div className="mt-auto flex items-end justify-between gap-3 pt-5">
-					<p className={cn('text-sm font-semibold', !price && 'text-ink/55')}>
+					<p
+						className={cn(
+							'text-sm font-semibold',
+							!price && 'text-ink/55',
+						)}
+					>
 						{price || product.priceNote || 'Enquire for availability'}
 					</p>
 					{!price && (

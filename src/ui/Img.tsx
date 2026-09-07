@@ -11,14 +11,14 @@ export function Img({
 	image,
 	width: w,
 	height: h,
-	loading: _loading,
+	loading: loadingProp,
 	...props
 }: { image?: Sanity.Image } & ImgProps) {
 	if (!image?.asset) return null
 
 	const { src, width, height } = generateSrc(image, w, h)
 
-	const requestedLoading = stegaClean(image.loading)
+	const requestedLoading = stegaClean(loadingProp ?? image.loading)
 	const loading =
 		requestedLoading === 'eager' || requestedLoading === 'lazy'
 			? requestedLoading

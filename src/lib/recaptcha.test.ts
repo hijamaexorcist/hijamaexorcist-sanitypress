@@ -34,10 +34,36 @@ describe('loadRecaptcha', () => {
 		const { loadRecaptcha } = await loadModule()
 		const result = loadRecaptcha('site-key')
 
-		document.querySelector<HTMLScriptElement>('script[data-recaptcha]')!
-			.onerror!(new Event('error'))
+		const script = document.querySelector<HTMLScriptElement>(
+			'script[data-recaptcha]',
+		)!
+		script.onerror!(new Event('error'))
 
 		await expect(result).rejects.toThrow('Failed to load reCAPTCHA')
+	})
+
+	it('removes a failed script and allows a later retry', async () => {
+		const { loadRecaptcha } = await loadModule()
+		const first = loadRecaptcha('site-key')
+		const failedScript = document.querySelector<HTMLScriptElement>(
+			'script[data-recaptcha]',
+		)!
+
+		failedScript.onerror!(new Event('error'))
+		await expect(first).rejects.toThrow('Failed to load reCAPTCHA')
+
+		expect(failedScript.isConnected).toBe(false)
+
+		const retry = loadRecaptcha('site-key')
+		const retryScript = document.querySelector<HTMLScriptElement>(
+			'script[data-recaptcha]',
+		)!
+
+		expect(retryScript).not.toBe(failedScript)
+		expect(document.querySelectorAll('script[data-recaptcha]')).toHaveLength(1)
+
+		retryScript.onload!(new Event('load'))
+		await expect(retry).resolves.toBeUndefined()
 	})
 
 	it('does not insert a script when reCAPTCHA already exists', async () => {

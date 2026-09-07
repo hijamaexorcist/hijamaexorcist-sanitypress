@@ -126,7 +126,7 @@ export default function ProductGallery({
 								alt={activeImage.alt || title}
 								width={1500}
 								sizes="(max-width: 1023px) 100vw, 58vw"
-								loading="eager"
+								loading={safeIndex === 0 ? 'eager' : 'lazy'}
 								className="clinic-core aspect-[4/5] w-full object-cover sm:aspect-[5/6] lg:max-h-[49rem]"
 							/>
 						</button>

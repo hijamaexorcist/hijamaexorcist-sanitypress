@@ -8,6 +8,15 @@
         "value": "instrument sans",
         "createdAt": "2026-08-14T06:04:03.468Z",
         "reason": "Existing clinic design system typeface; unrelated to reduced-motion CSS fix"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/ui/Img.tsx"
+        ],
+        "createdAt": "2026-09-07T01:24:15.512Z",
+        "reason": "Agent determined false positive: custom Img receives its generated source from the Sanity image wrapper"
       }
     ]
   }
