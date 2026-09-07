@@ -25,6 +25,38 @@ NEXT_PUBLIC_SANITY_DATASET="" # production
 SANITY_API_READ_TOKEN="" # Viewer token from https://sanity.io/manage
 ```
 
+## Verification
+
+Run the source checks:
+
+```sh
+npm test
+npm run typecheck
+npm run lint
+NEXT_PUBLIC_BASE_URL=https://www.hijamaexorcist.com npm run build
+```
+
+To crawl a local production build, start it in one terminal:
+
+```sh
+NEXT_PUBLIC_BASE_URL=https://www.hijamaexorcist.com npm start
+```
+
+Then run the rendered SEO and internal-link gate in another terminal:
+
+```sh
+npm run check:seo
+```
+
+After deployment, run the same gate against production:
+
+```sh
+SEO_BASE_URL=https://www.hijamaexorcist.com npm run check:seo
+```
+
+Search Console sitemap submission and Google Business Profile checks remain
+manual launch steps.
+
 ## Content
 
 Publish the required `site` and `page` documents in Studio:
